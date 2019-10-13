@@ -1,0 +1,63 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    // Get root node:
+    var root = CurrentPage.AncestorOrSelf(1);
+}
+
+<ul class="slideDesktop hidden-xs list-unstyled">
+    @{
+        if (Model.Content.HasValue("sliderimages"))
+        {
+			
+
+            var heroBannerList = Model.Content.GetPropertyValue<string>("sliderimages").Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse);
+            var heroBannerCollection = Umbraco.TypedMedia(heroBannerList).Where(x => x != null);
+
+            IEnumerable<IPublishedContent> nodeList = heroBannerCollection;
+
+            Random rng = new Random();
+
+            List<IPublishedContent> list = nodeList.ToList();
+            
+            int n = list.Count;
+            
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                IPublishedContent value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }  
+            
+	<!-- Displaying on Desktop -->
+           // foreach (var heroBanner in heroBannerCollection)
+            foreach (var heroBanner in list)
+            {
+				
+			
+                <li>
+                    <img src="@heroBanner.Url" alt="@heroBanner.Name" />
+                </li>
+            }
+        }
+    }
+</ul>
+<ul class="slidemobile visible-xs list-unstyled">
+    @{
+        if (Model.Content.HasValue("msliderimages"))
+        {
+
+            var mheroBannerList = Model.Content.GetPropertyValue<string>("msliderimages").Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse);
+            var mheroBannerCollection = Umbraco.TypedMedia(mheroBannerList).Where(x => x != null);
+
+		<!-- Displaying on Mobile   -->
+            foreach (var mheroBanner in mheroBannerCollection)
+            {
+                <li>
+                    <img src="@mheroBanner.Url" alt="@mheroBanner.Name" />
+                </li>
+            }
+        }
+    }
+</ul>

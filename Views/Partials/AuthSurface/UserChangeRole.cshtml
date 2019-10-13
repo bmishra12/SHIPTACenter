@@ -1,0 +1,152 @@
+@using System.Web.Mvc.Html
+@using Umbraco.Web
+@using ClientDependency.Core.Mvc
+
+@using UmbracoShipTac.Models
+@using UmbracoShipTac.Controllers.SurfaceControllers
+
+@model UserApprovalViewModel
+
+@{
+    var approvalId = 1372;
+
+    var success = TempData["FormSuccess"] != null;
+
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+}
+
+
+    @using (Html.BeginUmbracoForm<AuthSurfaceController>("HandleUserChangeRole", null, new { @class = "form-horizontal" }))
+   {
+        @Html.AntiForgeryToken()
+    
+
+        <fieldset>
+       
+            @Html.ValidationSummary("UserApprovalViewModel", true)
+
+            @Html.HiddenFor(model => model.ID)
+            @Html.HiddenFor(model => model.IsUserApproved)
+            @Html.HiddenFor(model => model.IsUserInactive)
+            @Html.HiddenFor(model => model.IsUserVerifiedEmail)
+            
+            
+            <div class="form-group">
+                <label for="firstname" class="col-sm-4 control-label">Name</label>
+                <div class="col-sm-8">
+                    <div class="form-inline row">
+                        <div class="form-group col-sm-6">
+                            @Html.DisplayFor(model => model.FirstName)
+                        </div>
+                        <div class="form-group col-sm-6">
+                            @Html.DisplayFor(model => model.LastName)
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="col-sm-4 control-label">Email</label>
+                <div class="col-sm-8">
+                    @Html.DisplayFor(model => model.EmailAddress)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Phone" class="col-sm-4 control-label"><span class="text-danger">*</span>Phone</label>
+
+                <div class="col-sm-8">
+                    @Html.DisplayFor(model => model.Phone)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="state" class="col-sm-4 control-label">City/State</label>
+                <div class="col-sm-8">
+                    <div class="form-inline row">
+                        <div class="form-group col-sm-6">
+                            @Html.DisplayFor(model => model.City)
+                        </div>
+                        <div class="form-group col-sm-6">
+                            @Html.DisplayFor(model => model.State)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="organization" class="col-sm-4 control-label">Organization</label>
+                <div class="col-sm-8">
+
+                    @Html.DisplayFor(model => model.Organization)
+                 </div>
+            </div>
+
+            <div class="form-group">
+                <label for="title" class="col-sm-4 control-label">Reason for this request</label>
+                <div class="col-sm-8">
+                    @Html.DisplayFor(model => model.Reason)
+                 </div>
+            </div>
+
+
+            <hr>
+            <h4>Website User Role</h4>
+
+@if (Model.IsUserApproved == true && Model.IsUserVerifiedEmail == true)
+{ 
+            <div class="form-group">
+                <label for="RoleAssigned" class="col-sm-4 control-label">Role Assigned</label>
+                <div class="col-sm-8">
+                    @Html.DisplayFor(model => model.RoleAssigned)
+                </div>
+            </div>
+    var umbracoHelper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+    var node = umbracoHelper.Content(approvalId);
+    <p>@node.BodyText1</p>
+                <div class="form-group">
+                <label for="organization" class="col-sm-4 control-label">“For SHIPs” Website Access Role (select one)</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.Role, UmbracoShipTac.Code.UiEnum.GetRolesCanApproveForAdmins(false))
+                </div>
+            </div>
+}
+            <div class="form-group">
+                <label for="RoleApplied" class="col-sm-4 control-label">Role Applied For</label>
+                <div class="col-sm-8">
+                    @Html.DisplayFor(model => model.RoleApplied)
+                </div>
+            </div>
+
+
+
+            <div class="form-group form-inline">
+                <div class="col-sm-8 col-sm-offset-4">
+                    <div class="row">
+                        @if (Model.IsUserApproved == true && Model.IsUserVerifiedEmail==true)
+                        { 
+                            <div class="col-sm-6 form-group">
+                                <button type="submit" name="SubmitAction" value="Approve" class="btn btn-primary btn-sm btn-block">Change User Role</button>
+                            </div>
+                        }
+ 
+                        
+                        <div class="col-sm-6 form-group">
+                            <button type="submit" name="SubmitAction" value="Cancel" class="btn btn-danger btn-sm btn-block">Cancel</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </fieldset>
+    }
+
+
+
+

@@ -1,0 +1,27 @@
+﻿@model UmbracoShipTac.Models.StateFormViewModel
+
+@using (Html.BeginUmbracoForm<UmbracoShipTac.Controllers.HomeStateFormSurfaceController>("HandleFormSubmit"))
+{
+
+    <div class="searh-board">
+        <div class="wrap-searh-board">
+            <h3>Need Local Help With Medicare?</h3>
+            <p>Contact your state SHIP:</p>
+        </div>
+
+        <div class="wrap-form clearfix">
+
+            <div class="row">
+                <div class="col-sm-8">
+                    <label class="sr-only">label</label>
+                    @Html.DropDownListFor(model => model.PageId, Model.ListName, "Select a State")
+                </div>
+
+                <div class="col-sm-4">
+                    <button type="submit" class="btn green-line lg btn-block col-480">GO</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}

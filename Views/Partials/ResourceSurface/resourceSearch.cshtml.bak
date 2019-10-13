@@ -1,0 +1,241 @@
+﻿@using System.Web.Mvc.Html
+
+@using ClientDependency.Core.Mvc
+
+@using UmbracoShipTac.Controllers
+@using UmbracoShipTac.Models
+
+
+@model UmbracoShipTac.Models.SearchResourceViewModel
+
+@{
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+
+}
+
+@if (Model.ResourceView == null || Model.ResourceView.Count() == 0)
+{
+    <br />
+    <h2>Welcome to the SHIP Resource Library!</h2>
+    <br />
+    <h4>Search here for resources created by SHIPs or for SHIPs.</h4>
+}
+
+<div class="inner-main">
+    <div class="col-sm-8 col-md-11 col-xs-12">
+        <div class="row">
+
+            <div class="block white clearfix">
+
+                @if (Model.ResourceView == null || Model.ResourceView.Count() == 0)
+                {
+                    <div id="filter-myUser">
+                        <form class="form-inline">
+                            <br />
+                            <div id="form-sgroup">
+                                <div class="col-sm-4  col-md-8  col-xs-12">
+                                    <label for="email" class="col-sm-12 control-label">Keyword Search</label>
+                                    @Html.TextBoxFor(x => x.ResTerm, new { @class = "form-control form-controlw" })
+                                </div>
+                                <div class="col-sm-4  col-md-8  col-xs-12">
+                                    <div class="checkbox" style="padding-left: 15px">
+                                        <label>
+                                            @Html.CheckBoxFor(model => model.ExactMatch)Exact Match
+                                        </label>
+                                        <div class="tooltipa">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <span class="tooltiptext">check to filter for exact words or phrases (leave unchecked to filter for partial words or by category)</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            @if (User.IsInRole("shipcenter"))
+                            {
+                                <div class="form-group" style="width: 170px;">
+
+                                    <div class="col-sm-12">
+                                        <label for="DateFrom" class="col-sm-12 control-label">Date Form</label>
+                                        @Html.TextBoxFor(model => model.DateFrom, new { @class = "col-sm-12" })
+
+                                    </div>
+                                    <div class="col-sm-4  col-md-8  col-xs-12">
+                                        &nbsp;&nbsp;
+                                    </div>
+                                </div>
+
+                                <div class="form-group" style="width: 170px;">
+                                    <div class=" col-sm-12">
+                                        <label for="DateTo" class="col-sm-12 control-label">Date To</label>
+                                        @Html.TextBoxFor(model => model.DateTo, new { @class = "col-sm-12" })
+
+                                    </div>
+                                    <div class="col-sm-4  col-md-8  col-xs-12">
+                                        &nbsp;&nbsp;
+                                    </div>
+                                </div>
+
+                            }
+
+                            <div class="form-group">
+                                <div class="col-sm-4  col-md-5 col-xs-12">
+                                    <label for="email" class="col-sm-8 control-label">&nbsp;&nbsp;</label>
+                                    <button type="submit" class="btn green-line"><i class="fa fa-filter"></i>Search</button>
+                                </div>
+                            </div>
+
+
+                            @if (User.IsInRole("shipcenter") || User.IsInRole("shipdirector") || User.IsInRole("shipadmin") || User.IsInRole("acladmin") || User.IsInRole("shipstaff"))
+                            {
+                                <div class="form-group">
+                                    <div class="col-sm-4  col-md-5 col-xs-12">
+                                        <label for="email" class="col-sm-8 control-label">&nbsp;&nbsp;</label>
+                                        <a href="/addresourcepage" class="btn green-line">Upload Resource</a>
+                                    </div>
+                                </div>
+                            }
+                            <br />
+                            <br />
+
+                            <div class="form-group">
+
+                                <div class="col-sm-4  col-md-5  col-xs-12">
+                                    <label for="email" class="col-sm-4 control-label">Subject</label>
+                                    @Html.ListBoxFor(x => x.SelectedSubjects,
+                                   new MultiSelectList(Model.UiSubject, "Text", "Text"),
+                     new
+                    {
+                        multiple = "multiple",
+                        @class = "checklist"
+                    })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-4  col-md-5 col-xs-12">
+                                    <label for="email" class="col-sm-4 control-label">Activity</label>
+
+                                    @Html.ListBoxFor(x => x.SelectedActivities,
+                                   new MultiSelectList(Model.UiActivity, "Text", "Text"),
+                     new
+                    {
+                        multiple = "multiple",
+                        @class = "checklist"
+                    })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+
+                                <div class="col-sm-4  col-md-5 col-xs-12">
+                                    <label for="email" class="col-sm-4 control-label">Type</label>
+                                    @Html.ListBoxFor(x => x.SelectedFileTypes,
+                                   new MultiSelectList(Model.UiFileTypes, "Text", "Text"),
+                     new
+                    {
+                        multiple = "multiple",
+                        @class = "checklist"
+                    })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+
+                                <div class="col-sm-4  col-md-5 col-xs-12">
+                                    <label for="email" class="col-sm-4 control-label">Audience</label>
+                                    @Html.ListBoxFor(x => x.SelectedAudences,
+                   new MultiSelectList(Model.UiAudience, "Text", "Text"),
+                     new
+                    {
+                        multiple = "multiple",
+                        @class = "checklist"
+                    })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-4  col-md-5 col-xs-12">
+                                    <label for="email" class="col-sm-4 control-label">Source</label>
+                                    @Html.DropDownListFor(model => model.State, UmbracoShipTac.Code.UiEnum.GetAclStates1(), "None selected", new { @class = "form-control" })
+                                    <div class="wrap-checklist"></div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                }
+
+                @if (Request.QueryString != null && Request.QueryString.Count > 0)
+                {
+                    <div class="col-sm-8 col-md-12">
+                        <h2>Results</h2>
+                        @if (Model.ResourceView != null && Model.ResourceView.Count() > 0)
+                        {
+                            foreach (var item in Model.ResourceView)
+                            {
+                                <div class="dd">
+                                    <a href="@item.Url" target="_blank"><strong>@item.NodeName</strong></a>
+                                    <p>
+                                        <small>
+                                            @Html.DisplayFor(modelItem => item.Text)
+                                            @if (item.FText == "1")
+                                            {
+                                                @Html.Raw(string.Format("<a href=\"{0}\" target=\"_blank\"><strong>...</strong></a>", item.Url))
+                                            }
+
+                                            @Html.DisplayFor(modelItem => item.Date)
+
+                                        </small>
+
+
+                                    </p>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>
+                                There are no resource results matching your search criteria.
+                            </p>
+                        }
+                    </div>
+                }
+
+
+
+                @if (Model.ResourceView == null || Model.ResourceView.Count() == 0)
+                {
+                    <div class="inner-main">
+                        <div class="col-sm-8 col-md-6">
+
+                            <div class="dd">
+                                <h4>Featured Resources:</h4>
+                                @Html.Action("RenderResourceTopFeatured", "ResourceSurface")
+
+                            </div>
+
+                        </div>
+                        <div class="col-sm-8 col-md-6">
+
+                            <div class="dd">
+                                <h4>Recently Added:</h4>
+                                @Html.Action("RenderResourceTopRecent", "ResourceSurface")
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>

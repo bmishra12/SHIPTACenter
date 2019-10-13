@@ -1,0 +1,42 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "umbLayout.cshtml";
+	
+}
+
+    <!-- Slider -->    
+    <div class="slider-banner">                
+        <div class="container">   
+			@Html.Action("Index", "HomeStateFormSurface")		
+        </div> 
+			
+        <div id="carousel">
+			@{ Html.RenderPartial("homeSlider"); }
+        </div>        
+	</div>  			
+
+				
+				
+		<div class="main">
+			<div class="container">
+				<div class="inner-main">
+					
+					<div class="col-sm-8 col-md-9 col-xs-12">
+						<div class="row">
+							<div class="block white clearfix">
+								@{ Html.RenderPartial("homefeature"); }
+							</div>
+						</div>
+					</div>
+						
+					<div class="col-sm-4 col-md-3 col-xs-12">
+						<div class="row-xs">
+                        	<div class="block blue">
+								@{ Html.RenderPartial("homerightnav"); }
+							</div>
+						</div>
+					</div>
+								
+				 </div>
+			</div>
+		</div>

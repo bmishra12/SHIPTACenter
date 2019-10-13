@@ -1,0 +1,384 @@
+﻿@using System.Web.Mvc.Html
+
+@using ClientDependency.Core.Mvc
+
+@using UmbracoShipTac.Controllers
+@using UmbracoShipTac.Models
+
+
+@model UmbracoShipTac.Models.WeekForMonth
+
+@{
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+
+}
+
+
+<div class="inner-main">
+    
+    <span style="font-size: 25px; padding-left:32px;"><strong>Welcome to the SHIP Center’s Calendar of Events.</strong> All events are shown in Eastern Time. </span>
+
+    <div class="col-sm-8 col-md-11 col-xs-12">
+        <div class="row">
+
+            <div class="block white clearfix">
+
+
+
+                <div id="calendar-wrap">
+                    <div class="header">
+                        <form class="form-inline">
+                            @{
+                                var purl = string.Format(
+                                    "?SubmitAction={0}&intMonth={1}&intYear={2}",
+                                    "Prev",
+                                    Model.intMonth, Model.intYear);
+                            }
+                            <a href="@purl" style="float:left;margin-left:10px;">Prev</a>
+
+                            @*<button type="submit" name="SubmitAction" value="Prev&intMonth=@Model.intMonth class=" fakelink" style="float:left;margin-left:10px;">Prev</button>*@
+                            @Model.curMonth @Model.year  
+
+                            @{
+                                var nurl = string.Format(
+                                    "?SubmitAction={0}&intMonth={1}&intYear={2}",
+                                    "Next",
+                                    Model.intMonth, Model.intYear);
+                            }
+
+                            <a href="@nurl" style="float:right;margin-right:10px;">Next</a>
+
+                            @*    <button type="submit" name="SubmitAction" value="Next" class="fakeLink" style="float:right;margin-right:10px;">Next</button>*@
+                        </form>
+
+
+                    </div>
+                    <div id="calendar">
+                        <ul class="weekdays">
+                            <li>Sunday</li>
+                            <li>Monday</li>
+                            <li>Tuesday</li>
+                            <li>Wednesday</li>
+                            <li>Thursday</li>
+                            <li>Friday</li>
+                            <li>Saturday</li>
+                        </ul>
+
+                        <!-- Days from previous month -->
+                        <!-- Row #2 -->
+                        @Html.Raw(" <ul class='days'>")
+                        @foreach (var item in Model.Week1)
+                        {
+                            if (item != null)
+                            {
+                                @Html.Raw("<li class='day'>")
+                                <div class="date">@item.dtDay</div>
+
+                                bool first = true;
+
+                                foreach (var ev in item.ShipEvents)
+                                {
+
+                                    @Html.Raw(string.Format("<a href=\"{0}\" target=\"_blank\">", ev.eventLink))
+                                    if (first)
+                                    {
+                                        @Html.Raw("<div class='event'>")
+                                        first = false;
+                                        }
+                                        else
+                                        {
+                                        @Html.Raw("<div class='eventn'>")
+
+                                        }
+
+                                        <div class="event-desc">
+                                            @ev.eventDesc
+                                        </div>
+                                        <div class="event-time">
+                                            @ev.eventTime
+
+                                        </div>
+
+                                        @Html.Raw("</div>")
+                                        }
+                                        
+                                        @Html.Raw("</a>")
+                            
+                                        @Html.Raw("</li>")
+                                        }
+                                        else
+                                        {
+                                        @Html.Raw("<li class='day'></li>")
+                                        }
+                                        }
+                                        @Html.Raw("</ul>")
+
+
+                                        <!-- Row #3 -->
+                        @Html.Raw(" <ul class='days'>")
+                        @foreach (var item in Model.Week2)
+                        {
+                            if (item != null)
+                            {
+                                @Html.Raw("<li class='day'>")
+                                <div class="date">@item.dtDay</div>
+
+                                bool first = true;
+
+                                foreach (var ev in item.ShipEvents)
+                                {
+
+                                    @Html.Raw(string.Format("<a href=\"{0}\" target=\"_blank\">", ev.eventLink))
+                                    if (first)
+                                    {
+                                        @Html.Raw("<div class='event'>")
+                                        first = false;
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw("<div class='eventn'>")
+
+                                    }
+
+                                    <div class="event-desc">
+                                        @ev.eventDesc
+                                    </div>
+                                    <div class="event-time">
+                                        @ev.eventTime
+
+                                    </div>
+
+                                    @Html.Raw("</div>")
+                                }
+
+                                @Html.Raw("</a>")
+
+                                @Html.Raw("</li>")
+                            }
+                            else
+                            {
+                                @Html.Raw("<li class='day'></li>")
+                            }
+                        }
+                        @Html.Raw("</ul>")
+
+
+
+                                        <!-- Row #4 -->
+                        @Html.Raw(" <ul class='days'>")
+                        @foreach (var item in Model.Week3)
+                        {
+                            if (item != null)
+                            {
+                                @Html.Raw("<li class='day'>")
+                                <div class="date">@item.dtDay</div>
+
+                                bool first = true;
+
+                                foreach (var ev in item.ShipEvents)
+                                {
+
+                                    @Html.Raw(string.Format("<a href=\"{0}\" target=\"_blank\">", ev.eventLink))
+                                    if (first)
+                                    {
+                                        @Html.Raw("<div class='event'>")
+                                        first = false;
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw("<div class='eventn'>")
+
+                                    }
+
+                                    <div class="event-desc">
+                                        @ev.eventDesc
+                                    </div>
+                                    <div class="event-time">
+                                        @ev.eventTime
+
+                                    </div>
+
+                                    @Html.Raw("</div>")
+                                }
+
+                                @Html.Raw("</a>")
+
+                                @Html.Raw("</li>")
+                            }
+                            else
+                            {
+                                @Html.Raw("<li class='day'></li>")
+                            }
+                        }
+                        @Html.Raw("</ul>")
+
+
+
+
+                                        <!-- Row #5 -->
+
+                        @Html.Raw(" <ul class='days'>")
+                        @foreach (var item in Model.Week4)
+                        {
+                            if (item != null)
+                            {
+                                @Html.Raw("<li class='day'>")
+                                <div class="date">@item.dtDay</div>
+
+                                bool first = true;
+
+                                foreach (var ev in item.ShipEvents)
+                                {
+
+                                    @Html.Raw(string.Format("<a href=\"{0}\" target=\"_blank\">", ev.eventLink))
+                                    if (first)
+                                    {
+                                        @Html.Raw("<div class='event'>")
+                                        first = false;
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw("<div class='eventn'>")
+
+                                    }
+
+                                    <div class="event-desc">
+                                        @ev.eventDesc
+                                    </div>
+                                    <div class="event-time">
+                                        @ev.eventTime
+
+                                    </div>
+
+                                    @Html.Raw("</div>")
+                                }
+
+                                @Html.Raw("</a>")
+
+                                @Html.Raw("</li>")
+                            }
+                            else
+                            {
+                                @Html.Raw("<li class='day'></li>")
+                            }
+                        }
+                        @Html.Raw("</ul>")
+
+
+
+
+                                        <!-- Row #6 -->
+
+                        @Html.Raw(" <ul class='days'>")
+                        @foreach (var item in Model.Week5)
+                        {
+                            if (item != null)
+                            {
+                                @Html.Raw("<li class='day'>")
+                                <div class="date">@item.dtDay</div>
+
+                                bool first = true;
+
+                                foreach (var ev in item.ShipEvents)
+                                {
+
+                                    @Html.Raw(string.Format("<a href=\"{0}\" target=\"_blank\">", ev.eventLink))
+                                    if (first)
+                                    {
+                                        @Html.Raw("<div class='event'>")
+                                        first = false;
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw("<div class='eventn'>")
+
+                                    }
+
+                                    <div class="event-desc">
+                                        @ev.eventDesc
+                                    </div>
+                                    <div class="event-time">
+                                        @ev.eventTime
+
+                                    </div>
+
+                                    @Html.Raw("</div>")
+                                }
+
+                                @Html.Raw("</a>")
+
+                                @Html.Raw("</li>")
+                            }
+                            else
+                            {
+                                @Html.Raw("<li class='day'></li>")
+                            }
+                        }
+                        @Html.Raw("</ul>")
+
+
+
+
+                        @Html.Raw(" <ul class='days'>")
+                        @foreach (var item in Model.Week6)
+                        {
+                            if (item != null)
+                            {
+                                @Html.Raw("<li class='day'>")
+                                <div class="date">@item.dtDay</div>
+
+                                bool first = true;
+
+                                foreach (var ev in item.ShipEvents)
+                                {
+
+                                    @Html.Raw(string.Format("<a href=\"{0}\" target=\"_blank\">", ev.eventLink))
+                                    if (first)
+                                    {
+                                        @Html.Raw("<div class='event'>")
+                                        first = false;
+                                    }
+                                    else
+                                    {
+                                        @Html.Raw("<div class='eventn'>")
+
+                                    }
+
+                                    <div class="event-desc">
+                                        @ev.eventDesc
+                                    </div>
+                                    <div class="event-time">
+                                        @ev.eventTime
+
+                                    </div>
+
+                                    @Html.Raw("</div>")
+                                }
+
+                                @Html.Raw("</a>")
+
+                                @Html.Raw("</li>")
+                            }
+                            else
+                            {
+                                @Html.Raw("<li class='day'></li>")
+                            }
+                        }
+                        @Html.Raw("</ul>")
+
+
+</div><!-- /. calendar -->
+                </div><!-- /. wrap -->
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+</div>

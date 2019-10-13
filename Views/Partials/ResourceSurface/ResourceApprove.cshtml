@@ -1,0 +1,331 @@
+﻿@using System.Web.Mvc.Html
+@using Umbraco.Web
+@using ClientDependency.Core.Mvc
+
+@using UmbracoShipTac.Controllers.SurfaceControllers
+
+@model UmbracoShipTac.Models.ResourceApproveViewModel
+
+@{
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+}
+
+
+
+@using (Html.BeginUmbracoForm<ResourceSurfaceController>("HandleApproveResource", null, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(Model => Model.ResourceId)
+    @Html.HiddenFor(model => model.Contributor)
+    @Html.HiddenFor(model => model.ContributorEmail)
+
+    <fieldset>
+       @if (User.IsInRole("shipcenter") || User.IsInRole("shipdirector") || User.IsInRole("shipadmin"))
+       {
+            <p>
+                Keep in mind that the Resource Library is role-based. The resource below has not been published. 
+                Please review it and decide whether or not to approve it for publication. Edit the checklists and data entry fields, as needed.
+            </p>
+        }
+        else
+        {
+            <p>
+                Keep in mind that the Resource Library is role-based. Your upload
+                will be reviewed by your SHIP director or administrator prior to publishing.
+            </p>
+        }
+
+        <p>
+            <strong> Please complete the fields below to upload your resource to the ship resource library. fields with red asterisks are required (<span class="text-danger">*</span>)</strong>
+        </p>
+
+
+        @Html.ValidationSummary("ResourceViewModel", true)
+
+        <div class="form-group">
+            <label for="Title" class="col-sm-4 control-label"><span class="text-danger">*</span>Title</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Title)
+                <div id="characters">
+
+                </div>
+                <p class="help-block">
+                    Enter the title that should appear in the library for your resource.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Description" class="col-sm-4 control-label"><span class="text-danger">*</span>Description</label>
+            <div class="col-sm-8">
+                @Html.TextAreaFor(model => model.Description, 3, 50, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description)
+                <p class="help-block">
+                    Type a description for your resource, being as thorough as possible in the space provided. Keep in
+                    mind that this description will be published, so please use complete sentences.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Subject" class="col-sm-4 control-label"><span class="text-danger">*</span>Subject</label>
+            <div class="col-sm-8">
+                <div class="form-inline row">
+                    <div class="form-group col-sm-6">
+                        Select all that apply.
+                    </div>
+                </div>
+                @for (int i = 0; i < Model.UiSubject.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        @Html.Raw("<div class='col-sm-6'>")
+
+                    }
+
+                    @Html.CheckBoxFor(m => m.UiSubject[i].Checked, new { id = "subject_" + i })
+
+                    @Html.HiddenFor(m => m.UiSubject[i].Text)
+                    <label class="control-label">
+                        @Html.DisplayFor(m => m.UiSubject[i].Text, new { @class = "checkbox" })
+                    </label>
+                    <br />
+                    if (i == 8)
+                    {
+                        @Html.Raw("</div>")
+                    }
+                }
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Activity" class="col-sm-4 control-label"><span class="text-danger">*</span>Activity</label>
+            <div class="col-sm-8">
+                <div class="form-inline row">
+                    <div class="form-group col-sm-6">
+                        Select all that apply.
+                    </div>
+                </div>
+
+                @for (int i = 0; i < Model.UiActivity.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        @Html.Raw("<div class='col-sm-6'>")
+
+                    }
+                    @Html.CheckBoxFor(m => m.UiActivity[i].Checked, new { id = "activity_" + i })
+                    @Html.HiddenFor(m => m.UiActivity[i].Text)
+                    <label class="control-label">
+                        @Html.DisplayFor(m => m.UiActivity[i].Text, new { @class = "checkbox" })
+                    </label>
+                    <br />
+                    if (i == 2)
+                    {
+                        @Html.Raw("</div>")
+                    }
+                }
+
+
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="Audience" class="col-sm-4 control-label"><span class="text-danger">*</span>Intended Audience</label>
+
+            <div class="col-sm-8">
+                <div class="form-inline row">
+                    <div class="form-group col-sm-6">
+                        Select all that apply.
+                    </div>
+                </div>
+
+                @for (int i = 0; i < Model.UiAudience.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        @Html.Raw("<div class='col-sm-6'>")
+
+                    }
+                    @Html.CheckBoxFor(m => m.UiAudience[i].Checked, new { id = "audience_" + i })
+                    @Html.HiddenFor(m => m.UiAudience[i].Text)
+                    <label class="control-label">
+                        @Html.DisplayFor(m => m.UiAudience[i].Text, new { @class = "checkbox" })
+                    </label>
+                    <br />
+
+                    if (i == 7)
+                    {
+                        @Html.Raw("</div>")
+                    }
+                }
+
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="Types" class="col-sm-4 control-label"><span class="text-danger">*</span>Types:</label>
+
+            <div class="col-sm-8">
+                <div class="form-inline row">
+                    <div class="form-group col-sm-6">
+                        Select all that apply.
+                    </div>
+                </div>
+                @for (int i = 0; i < Model.UiFileTypes.Count; i++)
+                {
+                    if (i == 0)
+                    {
+                        @Html.Raw("<div class='col-sm-6'>")
+
+                    }
+                    @Html.CheckBoxFor(m => m.UiFileTypes[i].Checked, new { id = "filetypes_" + i })
+                    @Html.HiddenFor(m => m.UiFileTypes[i].Text)
+                    <label class="control-label">
+                        @Html.DisplayFor(m => m.UiFileTypes[i].Text, new { @class = "checkbox" })
+                    </label>
+                    <br />
+                    if (i == 11)
+                    {
+                        @Html.Raw("</div>")
+                    }
+                }
+
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            <label for="File" class="col-sm-4 control-label"><span class="text-danger">*</span>File</label>
+            <div class="col-sm-8">
+                <p>
+                    @if (Model.MediaUrls == null)
+                    {
+                        @Html.Raw("No file uploaded.")
+
+                    }
+                    else
+                    { 
+                        foreach (var aurl in Model.MediaUrls)
+                        {
+                            @Html.Raw("<ul>")
+                            <li><a href="@aurl.FileUrl" target="_blank">@aurl.FileName</a></li>
+                            @Html.Raw("</ul>");
+                        }
+
+                    }
+                </p>
+
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label for="url" class="col-sm-4 control-label"><span class="text-danger">*</span>URL Links</label>
+            <div class="col-sm-8">
+                <p>
+                    @if (Model.MyRlinks == null)
+                    {
+                        @Html.Raw("No url link added.")
+                    }
+                    else
+                    {
+                        foreach (var aurl in Model.MyRlinks)
+                        {
+                            @Html.Raw("<ul>")
+                            <li><a href="@aurl.link" target="_blank">@aurl.caption</a></li>
+                            @Html.Raw("</ul>");
+                        }
+                    }
+
+
+                </p>
+
+            </div>
+
+        </div>
+
+        @if (User.IsInRole("shipcenter"))
+        {
+            <div class="form-group">
+                <label for="State" class="col-sm-4 control-label"><span class="text-danger">*</span>Choose Source:</label>
+
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.State, UmbracoShipTac.Code.UiEnum.AclStates1, "Please select a Source", new { @class = "form-control" })
+
+                </div>
+            </div>
+        }
+        
+        @if (User.IsInRole("shipcenter") || User.IsInRole("shipdirector") || User.IsInRole("shipadmin"))
+        {
+            <div class="form-group">
+                <label for="Role" class="col-sm-4 control-label"><span class="text-danger">*</span>Role</label>
+
+                <div id="divRole" class="col-sm-8">
+                    <div class="form-inline row">
+                        What library users should be allowed to see this resource (role)?
+                        Check one.
+                        (Please note that counselors in training do not have access to the Resource Library)
+                    </div>
+                    @if (User.IsInRole("shipcenter") || User.IsInRole("shipdirector"))
+                    {
+                        foreach (var item in UmbracoShipTac.Code.UiEnum.ResourceRoles)
+                        {
+                            @Html.RadioButtonFor(model => model.Role, item.Value, false)
+                            <label class="control-label">@item.Text</label>
+                            <br />
+                        }
+                    }
+                    @if (User.IsInRole("shipadmin"))
+                    {
+                        foreach (var item in UmbracoShipTac.Code.UiEnum.ResourceRolesForShipAdmin)
+                        {
+                            @Html.RadioButtonFor(model => model.Role, item.Value, false)
+                            <label class="control-label">@item.Text</label>
+                            <br />
+                        }
+                    }
+
+
+                </div>
+            </div>
+        }
+
+
+        
+
+
+        <div class="form-group form-inline">
+            <div class="col-sm-8 col-sm-offset-4">
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+
+                        <button type="submit" name="SubmitAction" value="Approve" class="btn blue-line btn-block md">Approve Resource</button>
+                    </div>
+
+                    <div class="col-sm-6 form-group">
+                        <button type="submit" name="SubmitAction" value="Deny" class="btn btn-danger btn-block md">Reject Resource</button>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </fieldset>
+}

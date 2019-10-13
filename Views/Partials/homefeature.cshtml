@@ -1,0 +1,38 @@
+﻿@inherits UmbracoTemplatePage
+	@using Newtonsoft.Json.Linq
+@{
+				
+	var featureHome = Umbraco.Content(1084);
+
+}
+   
+    <section>
+        <ul class="list-unstyled">
+            @foreach (var afeature in featureHome.Children)
+            {
+                <h2><span class="col-sm-offset-1">@afeature.featureheader</span></h2>
+                <div class="col-sm-10 col-centered">
+                    <div class="content">
+                        <p>@afeature.featurecontent</p>
+						
+
+						
+@{      
+    if (afeature.HasValue("linkpage") && afeature.linkpage.ToString().Length > 2)
+    {
+     
+            foreach (var item in afeature.linkpage)
+            {
+                var linkUrl = (bool)item.isInternal ? Umbraco.NiceUrl(item.Value<int>("internal")) : item.link;
+                var linkTarget = (bool)item.newWindow ? "_blank" : null;
+                <li><a href="@linkUrl"  class="btn light-grey link" target="@linkTarget">@item.caption</a></li>
+			}
+        
+    }
+} 
+			
+                    </div>
+                </div>
+            }
+
+    </section>		

@@ -1,0 +1,41 @@
+﻿@using System.Web.Mvc.Html
+
+@using ClientDependency.Core.Mvc
+
+@using UmbracoShipTac.Controllers
+@using UmbracoShipTac.Models
+
+@model UmbracoShipTac.Models.ResourceTopViewModel
+
+<div class="wrap-block">
+    @if (Model != null)
+    {
+        if (Model.TopListView != null && Model.TopListView.Count() > 0)
+        {
+            foreach (var item in Model.TopListView.OrderBy(i => i.Order))
+                {
+                <div class="dd">
+                    <a href="@item.Url" target="_blank"><strong>@item.NodeName</strong></a>
+                    <p>
+                        <small>
+
+                            @Html.DisplayFor(modelItem => item.Text)
+
+                            @if (item.FText == "1")
+                            {
+                                @Html.Raw(string.Format("<a href=\"{0}\" target=\"_blank\"><strong>...</strong></a>", item.Url))
+                            }
+                        </small>
+                    </p>
+                </div>
+            }
+        }
+    }
+    else
+    {
+        <p>
+            There are no resource results matching your search criteria.
+        </p>
+    }
+
+</div>

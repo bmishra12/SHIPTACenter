@@ -1,0 +1,157 @@
+﻿@using System.Web.Mvc.Html
+
+@using ClientDependency.Core.Mvc
+
+@using UmbracoShipTac.Controllers
+@using UmbracoShipTac.Models
+
+
+@model UmbracoShipTac.Models.SearchViewModel
+
+@{
+
+    var success = TempData["FormSuccess"] != null;
+
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+
+}
+
+<div id="filter-myUser">
+    <form class="form-inline">
+
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.Term, "", new { placeholder = "Enter search criteria", @class = "form-control form-controlw" })
+
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn green-line"><i class="fa fa-filter"></i>Search</button>
+        </div>
+
+    </form>
+</div>
+
+
+<div class="content col-centered">
+
+    <h4>Web Page Matches</h4>
+    @if (Model != null)
+    {
+        if (Model.SerchsView != null && Model.SerchsView.Count() > 0)
+        {
+            foreach (var item in Model.SerchsView)
+            {
+                <div class="block">
+                    <a href="@item.Url" target="_blank"><strong>@item.NodeName</strong></a>
+                    <p>
+                        <small>
+                            @Html.DisplayFor(modelItem => item.Text)
+                            @if (item.Text.Length > 249)
+                            {
+                                @Html.Raw(string.Format("<a href=\"{0}\" target=\"_blank\"><strong>...</strong></a>", item.Url))
+                            }
+                            @Html.DisplayFor(modelItem => item.FText)
+
+                        </small>
+                    </p>
+                </div>
+            }
+        }
+        else
+        {
+            <p>
+                There are no results matching your search criteria.
+            </p>
+        }
+    }
+
+</div>
+
+
+
+@if (System.Web.HttpContext.Current.User != null && System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+{
+    @Html.Raw("<div class=\"content col-centered\">")
+    @Html.Raw("<br />")
+    @Html.Raw("<h4>Resource Library Matches</h4>")
+    if (Model != null)
+    {
+        if (Model.SerchResourcView != null && Model.SerchResourcView.Count() > 0)
+        {
+            foreach (var item in Model.SerchResourcView)
+            {
+                @Html.Raw("<div class=\"dd\">")
+                <a href="@item.Url" target="_blank"><strong>@item.NodeName</strong></a>
+
+
+                @Html.Raw("<p>")
+                @Html.Raw("<small>")
+                @Html.DisplayFor(modelItem => item.Text)
+
+                if (item.FText == "1")
+                {
+                    @Html.Raw(string.Format("<a href=\"{0}\" target=\"_blank\"><strong>...</strong></a>", item.Url))
+
+                }
+                @Html.Raw("</small>")
+                @Html.Raw("</p>")
+                @Html.Raw("</div>")
+            }
+        }
+    }
+    else
+    {
+        @Html.Raw("<p>There are no resource results matching your search criteria.</p>")
+
+    }
+
+    @Html.Raw("</div>")
+}
+
+
+@if (System.Web.HttpContext.Current.User != null && System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+{
+    @Html.Raw("<div class=\"content col-centered\">")
+    @Html.Raw("<br />")
+    @Html.Raw("<h4>Calendar Matches</h4>")
+    if (Model != null)
+    {
+        if (Model.SerchEventView != null && Model.SerchEventView.Count() > 0)
+        {
+            foreach (var item in Model.SerchEventView)
+            {
+                @Html.Raw("<div class=\"dd\">")
+                <a href="@item.Url" target="_blank"><strong>@item.NodeName</strong></a>
+
+
+                @Html.Raw("<p>")
+                @Html.Raw("<small>")
+                @Html.DisplayFor(modelItem => item.Text)
+
+                if (item.FText == "1")
+                {
+                    @Html.Raw(string.Format("<a href=\"{0}\" target=\"_blank\"><strong>...</strong></a>", item.Url))
+
+                }
+                @Html.Raw("</small>")
+                @Html.Raw("</p>")
+                @Html.Raw("</div>")
+            }
+        }
+    }
+    else
+    {
+        @Html.Raw("<p>There are no calendar results matching your search criteria.</p>")
+
+    }
+
+    @Html.Raw("</div>")
+
+}
+
+
+

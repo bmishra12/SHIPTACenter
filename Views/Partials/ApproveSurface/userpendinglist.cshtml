@@ -1,0 +1,137 @@
+﻿@using System.Web.Mvc.Html
+
+@using ClientDependency.Core.Mvc
+
+@using UmbracoShipTac.Controllers
+@using UmbracoShipTac.Models
+
+
+@model UmbracoShipTac.Models.PendingUserViewModel
+
+@{
+
+    var success = TempData["FormSuccess"] != null;
+
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+
+}
+
+
+
+<div id="filter-myUser">
+    <form class="form-inline">
+
+        @if (User.IsInRole("shipcenter"))
+        {
+            <div class="form-group">
+                @Html.DropDownListFor(model => model.State, UmbracoShipTac.Code.UiEnum.AclStatesALL, "Please select a State", new { @class = "form-control" })
+
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.NameSearch, "", new { placeholder = "Enter FirstName or LastName or Full Name", @class = "form-control form-controlw" })
+
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn green-line"><i class="fa fa-filter"></i>Search</button>
+        </div>
+
+    </form>
+</div>
+
+
+
+<div class="form-group">
+    <br />
+    <a href="/adduser" class="btn green-line">Add New User</a>
+</div>
+
+<h2>Pending User Registrations</h2>
+<p>
+    Displays the list of Users who have been registered but not yet approved.
+    This shows unapproved users and users who have not yet verified their email address.
+</p>
+
+<div class="container">
+    <div class="inner-main">
+        <div class="table-responsive tableShiptalk  clearfix">
+            <table  id="myTable" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Created Date
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+                        @if (User.IsInRole("shipcenter"))
+                        {
+                            <th>
+                                State
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model.UsersView)
+                        {
+
+                            <tr>
+                                <td>
+                                    <a href="/approveuser?id=@item.ID">@item.Name</a>
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedDate)
+
+
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Status)
+
+                                </td>
+
+                                @if (User.IsInRole("shipcenter"))
+                                {
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.State)
+
+                                    </td>
+                                }
+
+                            </tr>
+
+                        }
+
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+
+
+    </div>
+
+
+</div>

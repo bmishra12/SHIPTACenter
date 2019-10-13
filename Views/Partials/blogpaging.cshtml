@@ -1,0 +1,30 @@
+﻿//VIEW
+@using Cultiv.Models
+@inherits UmbracoViewPage<BlogOverview>
+@{
+    Layout = "null";
+}
+
+@foreach (var post in Model.BlogPosts)
+{
+    <h2 class="post-title" itemprop="name"><a itemprop="url" href="@post.Url">@post.Name</a></h2>
+    <p itemprop="articleBody">(post.GetPropertyValue<string>("bodyText"), 50)...</p>
+}
+
+<section class="pagination-wrapper">
+    <nav class="pagination" role="pagination">
+
+        @if (Model.IsFirstPage == false)
+        {
+            <a class="newer-posts" href="?page=@Model.PreviousPage">&larr; Newer Posts</a>
+        }
+
+        <span class="page-number">Page <span class="number">@Model.Page</span> of <span class="number">@Model.TotalPages</span></span>
+
+        @if (Model.IsLastPage == false)
+        {
+            <a class="older-posts" href="?page=@Model.NextPage">Older Posts &rarr;</a>
+        }
+
+    </nav>
+</section> 

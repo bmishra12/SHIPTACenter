@@ -1,0 +1,174 @@
+﻿@using System.Web.Mvc.Html
+@using Umbraco.Web
+@using ClientDependency.Core.Mvc
+
+@using UmbracoShipTac.Controllers.SurfaceControllers
+
+@model UmbracoShipTac.Models.EventViewModel
+
+@{
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+
+
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+}
+
+
+
+@using (Html.BeginUmbracoForm<EventSurfaceController>("HandleAddEvent", null, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(Model => Model.ReturnUrl)
+
+    <fieldset>
+
+          <p>
+            <strong> Please complete the fields below to add your event to the calendar. Fields with red asterisks are required (<span class="text-danger">*</span>)</strong>
+        </p>
+        
+
+        @Html.ValidationSummary("EventViewModel", true)
+
+        <div class="form-group">
+            <label for="Title" class="col-sm-4 control-label"><span class="text-danger">*</span>Title</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Title)
+                <div id="div100char">
+
+                </div>
+                <p class="help-block">
+                    Enter the title that should appear in the library for your event.
+                </p>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Description" class="col-sm-4 control-label"><span class="text-danger">*</span>Description</label>
+            <div class="col-sm-8">
+                @Html.TextAreaFor(model => model.Description, 3, 50, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Description)
+                <div id="div500char">
+
+                </div>
+                <p class="help-block">
+                    Type a short description for your event. 
+                    Keep in mind that this description will be published, so please use complete sentences. 500 character limit.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Event Date Time" class="col-sm-4 control-label"><span class="text-danger">*</span>Event Date Time</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.DateRange, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DateRange)
+                <div id="div100char">
+
+                </div>
+                <p class="help-block">
+                    Enter the event time in Eastern Time. 
+                </p>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="Event Date Time" class="col-sm-4 control-label"><span class="text-danger">*</span>Intended Audience</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.IntendedAudience, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.IntendedAudience)
+                <div id="div100char">
+
+                </div>
+                <p class="help-block">
+                    Briefly describe the intended audience for this event. 
+                </p>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-4 control-label">
+                <label for="FirstName"><span class="text-danger">*</span>Register Link</label>
+                <label for="LastName">/Caption</label>
+            </div>
+
+            <div class="col-sm-8">
+                <div class="form-inline row">
+                    <div class="form-group col-sm-6">
+                        @Html.TextBoxFor(model => model.myLink1, new { placeholder = "URL", @class = "form-control" })
+
+
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.TextBoxFor(model => model.myCaption1, new { placeholder = "Caption", @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ 
+
+        
+        @if (User.IsInRole("shipcenter") || User.IsInRole("shipdirector") || User.IsInRole("shipadmin") || User.IsInRole("acladmin"))
+        {
+            <div class="form-group">
+                <label for="Role" class="col-sm-4 control-label"><span class="text-danger">*</span>Role</label>
+
+                <div id="divRole" class="col-sm-8">
+                    <div class="form-inline row">
+                        What library users should be allowed to see this resource (role)?
+                        Check one.
+                        (Please note that counselors in training do not have access to the Resource Library)
+                    </div>
+                    @if (User.IsInRole("shipcenter") || User.IsInRole("shipdirector") || User.IsInRole("acladmin"))
+                    {
+                        foreach (var item in UmbracoShipTac.Code.UiEnum.ResourceRoles)
+                        {
+                            @Html.RadioButtonFor(model => model.Role, item.Value, false)
+                            <label class="control-label">@item.Text</label>
+                            <br />
+                        }
+                    }
+                    @if (User.IsInRole("shipadmin"))
+                    {
+                        foreach (var item in UmbracoShipTac.Code.UiEnum.ResourceRolesForShipAdmin)
+                        {
+                            @Html.RadioButtonFor(model => model.Role, item.Value, false)
+                            <label class="control-label">@item.Text</label>
+                            <br />
+                        }
+                    }
+
+
+                </div>
+            </div>
+        }
+        
+        <div class="form-group form-inline">
+            <div class="col-sm-8 col-sm-offset-4">
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+
+                            <button id="btnResSave" type="submit" class="btn blue-line btn-block md">Save and Publish</button>
+
+
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <a href="/" class="btn blue-line btn-block md">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </fieldset>
+}

@@ -1,0 +1,55 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "umbLayout.cshtml";
+    var pageTitle = string.IsNullOrWhiteSpace(CurrentPage.Title)
+      ? CurrentPage.Name
+      : CurrentPage.Title;
+}
+
+
+
+<div class="main">
+    <div class="container">
+        <div class="inner-main">
+
+            <div class="col-sm-4 col-md-3 col-xs-12">
+                <div class="row">
+                    @{ Html.RenderPartial("leftnav"); }
+
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+
+                        @Html.Action("Index", "StateFormSurface");
+                    }
+ 
+                </div>
+            </div>
+
+            <div class="col-sm-8 col-md-9 col-xs-12">
+                <div class="row-xs">
+                    <div class="block white clearfix">
+                        <section>
+                            <h2 class="col-sm-offset-1"><span>@pageTitle</span></h2>
+                            <div class="col-sm-10 col-centered">
+                                <div class="content">
+                                    @CurrentPage.BodyText
+
+                                    @if (CurrentPage.Id == 1340)
+{
+    var st = UmbracoShipTac.Code.Helpers.GetUserDetail();
+    <a href="http://shipta.medicareinteractive.org/verify.php?q=@st" class="btn light-green-line md">Counselor Certification</a>
+}
+
+
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

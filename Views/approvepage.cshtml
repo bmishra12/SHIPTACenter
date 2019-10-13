@@ -1,0 +1,24 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+
+    Layout = "umbLayout.cshtml";
+
+
+}
+
+<div class="container">
+    <div role="tabpanel" class="tab-pane  active" id="dashboard">
+        <h2>Dashboard</h2>
+        <div class="table-responsive tableShiptalk  clearfix">
+ 
+            @Html.Action("RenderAcl", "AclSurface")
+        </div>
+
+        <div class="table-responsive tableShiptalk  clearfix">
+ 
+            @Html.Action("RenderPendingResource", "ResourceSurface")
+        </div>
+    </div>
+
+</div>
+   

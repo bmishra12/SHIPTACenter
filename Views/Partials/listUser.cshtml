@@ -1,0 +1,182 @@
+﻿@{
+   
+
+    bool hasloggedin = (System.Web.HttpContext.Current.User != null) && System.Web.HttpContext.Current.User.Identity.IsAuthenticated;
+
+    var userService = ApplicationContext.Current.Services.MemberService;
+    string usern = string.Empty;
+    usern = System.Web.HttpContext.Current.User.Identity.Name;
+
+
+
+    var amember = userService.GetByEmail(usern);
+    string state ="NONE"; //// 
+    if ((Request.QueryString["state"]) != null)
+    {
+        state = Request.QueryString["state"];
+    }
+    else
+    {
+        state = amember.GetValue("state").ToString(); 
+    }
+
+    if (String.IsNullOrWhiteSpace(state))
+    { 
+        state = "NONE";
+    }
+    // var usrs = userService.GetMembersByPropertyValue("State", state);
+
+    //@if( @Roles.IsUserInRole("StateAdmin"))
+    var pageSize = 8;
+    var page = 1; int.TryParse(Request.QueryString["page"], out page);
+    //var items = Model.Content.Children().Where(x => x.IsDocumentType("textpage")).OrderByDescending(x => x.CreateDate);
+    //var date = DateTime.UtcNow.AddMinutes(-AppConstants.TimeSpanInMinutesToShowMembers);
+   // var members = ApplicationContext.Current.Services.MemberService.GetMembersByPropertyValue(AppConstants.PropMemberLastActiveDate, date, ValuePropertyMatchType.GreaterThan)
+   //                 .Where(x => x.IsApproved && !x.IsLockedOut);
+
+    int pp = 2; //RoleId 
+    var items = userService.GetMembersByPropertyValue("roleid", pp, Umbraco.Core.Persistence.Querying.ValuePropertyMatchType.LessThanOrEqualTo);
+    
+    var itemse = userService.GetMembersByPropertyValue("State", state).Where(x => !x.IsApproved).OrderByDescending(x => x.Name);
+
+    var totalPages = (int)Math.Ceiling((double)items.Count() / (double)pageSize);
+
+    if (page > totalPages)
+    {
+        page = totalPages;
+    }
+    else if (page < 1)
+    {
+        page = 1;
+    }
+
+    var estatus = "Waiting for Email Verification";
+    var wstatus = "Waiting for Approval";
+
+}
+
+<h2>Pending User Registrations</h2>
+<p>
+    Displays the list of Users who have been registered but not yet approved.
+    This shows unapproved users and users who have not yet verified their email address.
+</p>
+
+<div class="container">
+    <div class="inner-main">
+        <div class="table-responsive tableShiptalk  clearfix">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Name @state
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Created Date
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in items.Skip((page - 1) * pageSize).Take(pageSize))
+                    {
+
+                        <tr>
+                            <td>
+                                @user.Name
+                            </td>
+                            <td>
+                                @user.Email
+                            </td>
+                            <td>
+                                @user.CreateDate.ToShortDateString()
+                            </td>
+
+                            <td>
+                                @if (@user.GetValue("hasVerifiedEmail").ToString() == "0")
+                                {
+                                    @estatus
+                                }
+                                else
+                                {
+
+                                   @wstatus
+                                }
+                            </td>
+
+                            <td>
+                                @{
+
+                                    <a href="1233.aspx?emailid=@user.Email">ActionLink</a>
+                                }
+
+                            </td>
+                        </tr>
+
+
+
+                    }
+                </tbody>
+</table>
+        </div>
+
+            @if (totalPages > 1)
+            {
+                <div class="col-centered text-center">
+                    <ul class="pagination pagination-sm">
+                        @if (page > 1)
+                        {
+                            <li>
+                                <a href="?page=@(page-1)&state=@state" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="disabled">
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        }
+
+                        @for (int p = 1; p < totalPages + 1; p++)
+                        {
+                            var active = (p == page) ? "active" : "";
+                            <li class="@active">   <a href="?page=@p&state=@state">@p</a> </li>
+                        }
+                        @if (page < totalPages)
+                        {
+                            <li>  
+                                <a href="?page=@(page+1)&state=@state" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+
+                            </li>
+                        }
+                        else
+                        {
+                            <li class ="disabled">
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                                </li>
+                        }
+</ul>
+                </div>
+
+            }
+
+
+
+
+        </div>
+
+
+</div>

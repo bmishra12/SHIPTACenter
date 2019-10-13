@@ -1,0 +1,92 @@
+﻿@model UmbracoShipTac.Models.ContactFormViewModel
+
+@if (TempData["success"] == null)
+{
+
+    using (Html.BeginUmbracoForm<UmbracoShipTac.Controllers.ContactFormSurfaceController>("HandleFormSubmit"))
+    {
+
+        <div class="row">
+            <div class="small-10">
+                <div class="row">
+                    @Html.LabelFor(m => m.FName)
+                    @Html.TextBoxFor(m => m.FName)
+                    @Html.ValidationMessageFor(m => m.FName)
+                </div>
+                <div class="row">
+                    @Html.LabelFor(m => m.LName)
+                    @Html.TextBoxFor(m => m.LName)
+                    @Html.ValidationMessageFor(m => m.LName)
+                </div>
+                <div class="row">
+                    @Html.LabelFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email)
+                    @Html.ValidationMessageFor(m => m.Email)
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(m => m.CEmail)
+                    @Html.TextBoxFor(m => m.CEmail)
+                    @Html.ValidationMessageFor(m => m.CEmail)
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(m => m.Company)
+                    @Html.TextBoxFor(m => m.Company)
+                    @Html.ValidationMessageFor(m => m.Company)
+                </div>
+                <div class="row">
+                    @Html.LabelFor(m => m.Address1)
+                    @Html.TextBoxFor(m => m.Address1)
+                    @Html.ValidationMessageFor(m => m.Address1)
+                </div>
+                <div class="row">
+                    @Html.LabelFor(m => m.Address2)
+                    @Html.TextBoxFor(m => m.Address2)
+                    @Html.ValidationMessageFor(m => m.Address2)
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(m => m.City)
+                    @Html.TextBoxFor(m => m.City)
+                    @Html.ValidationMessageFor(m => m.City)
+                </div>
+                <div class="row">
+                    @Html.LabelFor(m => m.Origin)
+                    @Html.TextBoxFor(m => m.Origin)
+                    @Html.ValidationMessageFor(m => m.Origin)
+                </div>
+                <div class="row">
+                    @Html.LabelFor(m => m.Zip)
+                    @Html.TextBoxFor(m => m.Zip)
+                    @Html.ValidationMessageFor(m => m.Zip)
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(m => m.Phone)
+                    @Html.TextBoxFor(m => m.Phone)
+                    @Html.ValidationMessageFor(m => m.Phone)
+                </div>
+
+
+                <div class="row">
+                    @Html.LabelFor(m => m.Comments)
+                    @Html.TextAreaFor(m => m.Comments)
+                    @Html.ValidationMessageFor(m => m.Comments)
+                </div>
+
+            </div>
+            <div class="small-10">
+                <div class="row">
+                    <div class="small-9 small-offset-3 columns">
+                        <input type="submit" class="button tiny" value="Send" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p>thanks we will be in touch</p>
+}

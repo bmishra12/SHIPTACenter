@@ -1,0 +1,45 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+     Layout = "umbLayout.cshtml";
+
+    var success = TempData["success"] != null;
+    var message = TempData["message"];
+
+}
+
+
+    <div class="container">
+        <div class="inner-main tab-content">
+
+            <!-- My user content -->
+            <div role="tabpanel" class="tab-pane active" id="myUsers">
+                <h2>Resources</h2>
+                <div class="col-sm-11 col-md-10 col-centered">
+                    <div class="block white clearfix row">
+                        <section>
+                            <div class="col-sm-10 content col-centered">
+                                <h2>Resource Profile</h2>
+                                @if (success)
+                                {
+                                    <p>
+                                        <a href="/approve" class="btn btn-link">« Back to dashboard</a>
+                                    </p>
+
+                                    <p>
+                                        Your action was successfull.
+                                        <br />  
+                                    @message
+                                    </p>
+                                }
+                                else
+                                { 
+ 
+                                    @Html.Action("RenderApproveResource", "ResourceSurface")
+                                }
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

@@ -1,0 +1,67 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "umbLayout.cshtml";
+    var pageTitle = string.IsNullOrWhiteSpace(CurrentPage.Title)
+  ? CurrentPage.Name
+  : CurrentPage.Title;
+}
+
+<div class="main">
+    <div class="container">
+        <div class="inner-main">
+            <div class="col-sm-8 col-md-9 col-xs-12">
+                <div class="row-xs">
+                    <div class="block white clearfix">
+                        <section>
+                            <div class="col-sm-offset-1"><h2>@CurrentPage.EventTitle</h2></div>
+                            <div class="col-sm-10 col-centered">
+                                <div class="content">
+
+                                    @{
+                                        DateTime dtEvent = Convert.ToDateTime(CurrentPage.datetimefrom);
+
+                                        DateTime dtEventTo = Convert.ToDateTime(CurrentPage.datetimeto);
+
+                                    }
+
+                                    <strong>Event Date: </strong> @dtEvent.ToShortDateString()
+                                    <br />
+
+                                    <strong> Event Time (ET): </strong> @dtEvent.ToShortTimeString() - @dtEventTo.ToShortTimeString() 
+                                    <br />
+
+                                    <strong> Description: </strong> @Html.Raw(CurrentPage.Description) 
+                                    <br />
+                                             
+                                    <strong> Intended Audience: </strong> @Html.Raw(CurrentPage.intendedaudience)
+                                    <br />
+                                  
+                                    @{ if (DateTime.Now > dtEventTo)
+                                     {
+                                        <strong> Event Archive: </strong> <a href="@Html.Raw(CurrentPage.ArchiveLink)" target="blank">@Html.Raw(CurrentPage.ArchiveCaption)</a>
+
+                                        <br />
+                                     }
+
+                                       else
+                                       {
+                                        <strong> Register: </strong> <a href="@Html.Raw(CurrentPage.RegisterLink)" target="blank">@Html.Raw(CurrentPage.RegisterCaption)</a>
+
+                                        <br />
+
+                                       }
+                                    }
+
+
+ 
+                                    
+
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

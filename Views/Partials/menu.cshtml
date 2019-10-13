@@ -1,0 +1,122 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    var homePage = CurrentPage.AncestorsOrSelf(1).First();
+    var aboutusPage = Umbraco.Content(1215);
+	    var mapPage = Umbraco.Content(8543);
+	var vPage = Umbraco.Content(10980);
+	var helpPage = Umbraco.Content(10981);	
+	
+	
+}
+<nav class="navbar" role="navigation">
+    <div class="container">
+        <div class="row">
+            <div class="collapse navbar-collapse" id="show-nav">
+                <ul class="nav navbar-nav">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li class="@(CurrentPage.Id == homePage.Id ? "active" : null)">
+                            <a href="@homePage.Url"><span>@homePage.menuline1</span>@homePage.menuline2</a>
+                        </li>
+
+
+                        <li class="sub-menu @(CurrentPage.Id == aboutusPage.Id ? "active" : null)">
+                            <a href="@aboutusPage.Url"><span>@aboutusPage.menuline1</span>@aboutusPage.menuline2</a>
+
+
+                            <ul class="dropdown-menu level-1" role="menu">
+                                @foreach (var menu2 in aboutusPage.textpage.Where("hideinmenu == false"))
+                                {
+                                    <li>
+                                        <a href="@menu2.Url">@menu2.title</a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+
+                        <li class="@(CurrentPage.Id == vPage.Id ? "active" : null)">
+								   <a href="@vPage.Url"><span>@vPage.menuline1</span>@vPage.menuline2</a>
+						</li>
+
+
+
+						<li class="@(CurrentPage.Id == helpPage.Id ? "active" : null)">
+								   <a href="@helpPage.Url"><span>@helpPage.menuline1</span>@helpPage.menuline2</a>
+						</li>
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        //check the role and add the features menu..
+                        if (!User.IsInRole("shiptraining"))
+                        {
+
+                            <li class="null">
+                                <a href="/feature"><span>Features</span></a>
+                            </li>
+                        }
+
+                        foreach (var menu in homePage.textpage.Where("hideinmenu == false"))
+                        {
+                            if (umbraco.library.HasAccess(menu.id, menu.path))
+                            {
+                                if (menu.textpage.Where("hideinmenu == false").Count() > 0)
+                                {
+                                    //exclude the aboutus page
+                                    if (menu.id != aboutusPage.Id)  
+                                    {
+                                        <li class="sub-menu @(CurrentPage.Id == menu.Id ? "active" : null)">
+                                            <a href="@menu.Url" data-toggle="dropdown" aria-expanded="false" class="disabled"><span>@menu.menuline1</span>@menu.menuline2</a>
+											@if (menu.id != mapPage.id)
+											{
+
+													<ul class="dropdown-menu level-1" role="menu">
+														@foreach (var menu2 in menu.textpage.Where("hideinmenu == false"))
+														{
+															if (umbraco.library.HasAccess(menu2.id, menu2.path))
+															{
+																<li>
+																	<a href="@menu2.Url">@menu2.title</a>
+																</li>
+															}
+														}
+													</ul>
+											}
+											
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li class="@(CurrentPage.Id == menu.Id ? "active" : null)">
+                                        <a href="@menu.Url"><span>@menu.menuline1</span>@menu.menuline2</a>
+                                    </li>
+                                }
+
+                            }
+                        }
+
+
+						
+
+                        //check the role and add the two menu..
+                        if (User.IsInRole("shipcenter") || User.IsInRole("shipdirector") || User.IsInRole("shipadmin"))
+                        {
+
+                            <li class="null">
+                                <a href="/approve"><span>Dashboard</span></a>
+                            </li>
+
+                            <li class="null">
+                                <a href="/approved"><span>My Users</span></a>
+                            </li>
+                        }
+
+
+                    }
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</nav>

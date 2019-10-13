@@ -1,0 +1,190 @@
+@using System.Web.Mvc.Html
+@using Umbraco.Web
+@using ClientDependency.Core.Mvc
+
+@using UmbracoShipTac.Models
+@using UmbracoShipTac.Controllers.SurfaceControllers
+
+@model RegisterViewModel
+
+@{
+    var approvalId = 1372;
+    
+    var success = TempData["FormSuccess"] != null;
+
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+}
+
+
+
+    @using (Html.BeginUmbracoForm<AuthSurfaceController>("HandleAddUser", null, new { @class = "form-horizontal" }))
+   {
+        @Html.AntiForgeryToken()
+    
+        @*@Html.ValidationSummary(false)*@
+
+        <fieldset>
+            <p>
+                <strong class="pull-right">(<span class="text-danger">*</span> = required field)</strong>
+            </p>
+
+            @Html.ValidationSummary("RegisterViewModel", true)
+
+            <div class="form-group">
+                <label for="firstname" class="col-sm-4 control-label"><span class="text-danger">*</span> Name</label>
+                <div class="col-sm-8">
+                    <div class="form-inline row">
+                        <div class="form-group col-sm-6">
+                            @Html.TextBoxFor(model => model.FirstName, "", new { placeholder = "First Name", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.FirstName)
+                        </div>
+                        <div class="form-group col-sm-6">
+                            @Html.TextBoxFor(model => model.LastName, "", new { placeholder = "Last Name", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.LastName)
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="EmailAddress" class="col-sm-4 control-label"><span class="text-danger">*</span>Email</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.EmailAddress, "", new { placeholder = "Primary Email will be your login Username", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EmailAddress)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Password" class="col-sm-4 control-label"><span class="text-danger">*</span>Password</label>
+
+                <div class="col-sm-8">
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Password)
+                    <p class="help-block">
+                        Your password must be between 8 to 30 characters and must contain at least one upper case letter, at least one digit and at least one special character, with the exception of the characters < and &, which cannot be used.
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ConfirmPassword" class="col-sm-4 control-label"><span class="text-danger">*</span>Confirm Password</label>
+
+                <div class="col-sm-8">
+                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Phone" class="col-sm-4 control-label"><span class="text-danger">*</span>Phone</label>
+
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Phone, "", new { placeholder = "e.g., 202-555-1234 x1234", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Phone)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="state" class="col-sm-4 control-label"><span class="text-danger">*</span> City/State</label>
+
+                <div class="col-sm-8">
+                    <div class="form-inline row">
+                        <div class="form-group col-sm-6">
+                            @Html.TextBoxFor(model => model.City, "", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.City)
+                        </div>
+
+                        <div class="form-group col-sm-6">
+                            @if (User.IsInRole("shipcenter"))
+                            {
+
+                                @Html.DropDownListFor(model => model.State, UmbracoShipTac.Code.UiEnum.GetAclStates(), "Please select a State", new { @class = "form-control" })
+
+                            }
+                            else
+                            {
+                       
+                               // @Html.DropDownListFor(model => model.State, UmbracoShipTac.Code.UiEnum.AclStates, new { @class = "form-control", disabled = "disabled" })
+
+                                @Html.TextBoxFor(model => model.State, new {  @readonly = "readonly" })
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Organization" class="col-sm-4 control-label"><span class="text-danger">*</span>Organization</label>
+
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.Organization, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Organization)
+                 </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="Reason" class="col-sm-4 control-label"><span class="text-danger">*</span>Reason for this request</label>
+                    <div class="col-sm-8">
+                        @Html.TextAreaFor(model => model.Reason, 4, 50, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Reason)
+                    </div>
+                </div>
+
+
+                <hr>
+                <h4>Website User Role</h4>
+
+                @{
+                            var umbracoHelper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+                            var node = umbracoHelper.Content(approvalId);
+                            <p>@node.BodyText1</p>
+                }
+
+                <div class="form-group">
+                    <label for="organization" class="col-sm-4 control-label">“For SHIPs” Website Access Role (select one)</label>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(model => model.Role, UmbracoShipTac.Code.UiEnum.GetRolesCanApproveForAdmins(true))
+                    </div>
+                </div>
+
+
+
+                <hr />
+                <h4>Access to Other SHIP TA Center Tools</h4>
+                <div class="form-group">
+                    <div class="col-sm-8 col-sm-push-4">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(model => model.AddToDistributionList)Add to Center Publication Distribution List
+
+                            </label>
+                        </div>
+                        <p class="help-block"><small>Check the box if you would like this user to receive SHIP TA Center publications - monthly newsletter and other publications. Users who can receive Center publications directly from the SHIP TA Center is at the discretion of SHIP directors.</small></p>
+                    </div>
+                </div>
+
+                <div class="form-group form-inline">
+                    <div class="col-sm-8 col-sm-offset-4">
+                        <div class="row">
+                            <div class="col-sm-6 form-group">
+                                <button type="submit" name="SubmitAction" value="Approve" class="btn btn-primary btn-sm btn-block">Create And Approve User</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+</fieldset>
+    }
+
+
+
+

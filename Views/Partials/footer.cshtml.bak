@@ -1,0 +1,37 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+	@using Newtonsoft.Json.Linq
+@{
+				
+	var footer = Umbraco.Content(1139);		
+}
+
+<div class="container foo">           
+	<div class="col-sm-12">           
+		<ul class="fooNav list-inline">               
+			@{      
+				if (footer.HasValue("footerlinks") && footer.footerlinks.ToString().Length > 2)
+				{
+				 
+					foreach (var item in footer.footerlinks)
+					{
+						var linkUrl = (bool)item.isInternal ? Umbraco.NiceUrl(item.Value<int>("internal")) : item.link;
+						var linkTarget = (bool)item.newWindow ? "_blank" : null;
+						<li><a href="@linkUrl" target="@linkTarget">@item.caption</a></li>
+					}
+					
+				}
+			} 
+		</ul>
+	</div>
+	<div class="col-xs-12 copyright"><small>@footer.copyright</small></div>
+	<div class="col-xs-12">
+		<div id="google_translate_element" class="row"></div>
+	</div>
+</div>
+	
+	
+
+
+	
+	
+	

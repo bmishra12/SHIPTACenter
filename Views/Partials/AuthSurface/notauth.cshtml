@@ -1,0 +1,18 @@
+﻿@using System.Web.Mvc.Html
+@using Umbraco.Web
+@using ClientDependency.Core.Mvc
+
+@using UmbracoShipTac.Controllers.SurfaceControllers
+
+
+@{
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+}
+
+<p>
+    You are not authorized..
+</p>

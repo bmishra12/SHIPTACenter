@@ -1,0 +1,258 @@
+@using System.Web.Mvc.Html
+@using Umbraco.Web
+@using ClientDependency.Core.Mvc
+
+
+@using UmbracoShipTac.Models
+@using UmbracoShipTac.Controllers.SurfaceControllers
+
+
+@model UserApprovalViewModel
+
+@{
+    var approvalId = 1372;
+    var success = TempData["FormSuccess"] != null;
+
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+}
+
+
+
+
+
+@using (Html.BeginUmbracoForm<AuthSurfaceController>("HandleUserApproval", null, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+
+
+    <fieldset>
+
+        @Html.ValidationSummary("UserApprovalViewModel", true)
+
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.IsUserApproved)
+        @Html.HiddenFor(model => model.IsUserInactive)
+        @Html.HiddenFor(model => model.IsUserVerifiedEmail)
+
+
+        <div class="form-group">
+            <label for="firstname" class="col-sm-4 control-label">Name</label>
+            <div class="col-sm-8">
+                <div class="form-inline row">
+                    <div class="form-group col-sm-6">
+                        @Html.TextBoxFor(model => model.FirstName, "", new { placeholder = "First Name", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FirstName)
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.TextBoxFor(model => model.LastName, "", new { placeholder = "Last Name", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LastName)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="col-sm-4 control-label">Email</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.EmailAddress, "", new { @readonly = "readonly", @class = "wEmail" })
+                @Html.ValidationMessageFor(model => model.EmailAddress)
+
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="col-sm-4 control-label">Edit Email</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.EmailAddressChange, "", new { placeholder = "Need to change user's email address? Enter it here.", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EmailAddressChange)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Phone" class="col-sm-4 control-label"><span class="text-danger">*</span>Phone</label>
+
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.Phone, "", new { placeholder = "e.g., 202-555-1234 x1234", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Phone)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="state" class="col-sm-4 control-label">City/State</label>
+            <div class="col-sm-8">
+                <div class="form-inline row">
+                    <div class="form-group col-sm-6">
+                        @Html.TextBoxFor(model => model.City, "", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.City)
+                    </div>
+                    <div class="form-group col-sm-6">
+                        @Html.TextBoxFor(model => model.State, new { @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="organization" class="col-sm-4 control-label">Organization</label>
+            <div class="col-sm-8">
+                @Html.TextBoxFor(model => model.Organization, "", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Organization)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="title" class="col-sm-4 control-label">Reason for this request</label>
+            <div class="col-sm-8">
+                @Html.TextAreaFor(model => model.Reason, 4, 50, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Reason)
+            </div>
+        </div>
+
+
+        <hr>
+        <h4>Website User Role</h4>
+
+
+
+        @if (Model.IsUserApproved == false)
+        {
+            <div class="form-group">
+                <label for="RoleAssigned" class="col-sm-4 control-label">Role Assigned</label>
+                <div class="col-sm-8">
+                    @Html.DisplayFor(model => model.RoleAssigned)
+                </div>
+            </div>
+
+
+
+            var umbracoHelper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+            var node = umbracoHelper.Content(approvalId);
+            <p>@node.BodyText1</p>
+
+
+            <div class="form-group">
+                <label for="organization" class="col-sm-4 control-label">“For SHIPs” Website Access Role (select one)</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.Role, UmbracoShipTac.Code.UiEnum.GetRolesCanApproveForAdmins(false))
+                </div>
+            </div>
+        }
+        else
+        {
+
+            var umbracoHelper1 = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
+            var node1 = umbracoHelper1.Content(approvalId);
+            <p>@node1.BodyText1</p>
+
+            <div class="form-group">
+                <label for="RoleAssigned" class="col-sm-4 control-label">Role Assigned</label>
+                <div class="col-sm-8">
+                    @Html.DisplayFor(model => model.RoleAssigned)
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <label for="RoleApplied" class="col-sm-4 control-label">Role Applied For</label>
+            <div class="col-sm-8">
+                @Html.DisplayFor(model => model.RoleApplied)
+            </div>
+        </div>
+
+        <hr />
+        <h4>Access to Other SHIP TA Center Tools</h4>
+        <div class="form-group">
+            <div class="col-sm-8 col-sm-push-4">
+                <div class="checkbox">
+                    <label>
+                        @Html.CheckBoxFor(model => model.AddToDistributionList)Add to Center Publication Distribution List
+
+                    </label>
+                </div>
+                <p class="help-block"><small>Check the box if you would like this user to receive SHIP TA Center publications - monthly newsletter and other publications. Users who can receive Center publications directly from the SHIP TA Center is at the discretion of SHIP directors.</small></p>
+            </div>
+        </div>
+
+        <div class="form-group form-inline">
+            <div class="col-sm-8 col-sm-offset-4">
+                <div class="row">
+                    @if (Model.IsUserApproved == false && Model.IsUserVerifiedEmail == true)
+                    {
+                        <div class="col-sm-6 form-group">
+                            <button type="submit" name="SubmitAction" value="Approve" class="btn btn-primary btn-sm btn-block">Approve User</button>
+                        </div>
+                    }
+                    @if (Model.IsUserApproved == false && Model.IsUserVerifiedEmail == false)
+                    {
+                        <div class="col-sm-6 form-group">
+                            <button type="submit" name="SubmitAction" value="ResendEmail" class="btn btn-primary btn-sm btn-block">Resend Verification Email</button>
+                        </div>
+
+
+                    }
+                    @if (Model.IsUserApproved == true && Model.IsUserInactive == true)
+                    {
+                        <div class="col-sm-6 form-group">
+                            <button type="submit" name="SubmitAction" value="Active" class="btn btn-primary btn-sm btn-block">Activate User</button>
+                        </div>
+                    }
+                    @if (Model.IsUserApproved == true && Model.IsUserInactive == false)
+                    {
+                        <div class="col-sm-6 form-group">
+                            <button type="submit" name="SubmitAction" value="Inactive" class="btn btn-danger btn-sm btn-block">Inactivate User</button>
+                        </div>
+                    }
+                    @if (Model.IsUserApproved == false && Model.IsUserVerifiedEmail == true)
+                    {
+
+                        <div class="col-sm-6 form-group">
+                            <button type="submit" name="SubmitAction" value="Deny" class="btn btn-danger btn-sm btn-block">Reject User</button>
+                        </div>
+                    }
+
+                    @if (User.IsInRole("shipcenter"))
+                    {
+                        <div class="col-sm-6 form-group">
+                            <button type="submit" name="SubmitAction" value="Delete" class="btn btn-danger btn-sm btn-block">Delete User</button>
+                        </div>
+                    }
+                </div>
+                <p></p>
+                <div class="row">
+                    @if (Model.IsUserApproved == false && Model.IsUserVerifiedEmail == false)
+                    {
+                        <div class="col-sm-8 form-group">
+                            <button type="submit" name="SubmitAction" value="OverRideEmailApprove" class="btn btn-primary btn-sm btn-block">Override email verification and approve</button>
+                        </div>
+                    }
+                </div>
+                <p></p>
+                <div class="row">
+                    @if (Model.IsUserApproved == true)
+                    {
+                        <div class="col-sm-8 form-group">
+                            <button type="submit" name="SubmitAction" value="GenerateTempPassWord" class="btn btn-primary btn-sm btn-block">Generate temporary password</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-8 col-sm-push-4">
+                <button type="submit" name="SubmitAction" value="Save" class="btn btn-primary">Save changes</button>
+
+            </div>
+        </div>
+
+    </fieldset>
+}
+
+
+
+

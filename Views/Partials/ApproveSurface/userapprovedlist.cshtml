@@ -1,0 +1,142 @@
+﻿@using System.Web.Mvc.Html
+@using ClientDependency.Core.Mvc
+@using UmbracoShipTac.Controllers
+@using UmbracoShipTac.Models
+
+@model UmbracoShipTac.Models.UserViewModel
+
+@{
+
+    var success = TempData["FormSuccess"] != null;
+
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+
+}
+
+
+
+
+
+    <div id="filter-myUser">
+        <form class="form-inline">
+
+            @if (User.IsInRole("shipcenter"))
+            {
+                      <div class="form-group">
+                            @Html.DropDownListFor(model => model.State, UmbracoShipTac.Code.UiEnum.AclStates, "Please select a State", new { @class = "form-control" })
+
+                        </div>
+            }
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.NameSearch, "", new { placeholder = "Enter FirstName or LastName or Full Name", @class = "form-control form-controlw" })
+
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn green-line"><i class="fa fa-filter"></i>Search</button>
+            </div>
+
+            @if (User.IsInRole("shipcenter") || User.IsInRole("shipdirector") || User.IsInRole("shipadmin"))
+            {
+                <div>
+                    @{
+                        var routeValues = new System.Web.Routing.RouteValueDictionary();
+                        routeValues.Add("controller", "ShipTac");
+                        routeValues.Add("EmailId", "test");
+                        @Html.ActionLink("Download Users", "RenderDownloadCSV", routeValues, null);
+                    }
+                </div>
+            }
+        </form>
+    </div>
+
+
+
+<div class="form-group">
+    <br />
+    <a href="/adduser" class="btn green-line">Add New User</a>
+</div>
+
+    <p>
+        All of the users who have access or have requested access to the password-protected area of shiptacenter.org are listed below. To add a new user, click “Add New.” To review or edit a user’s profile, click on the appropriate name below. To change a user’s role, click on that user’s role in the second column below. The default sort order is date of Last Login. To change the sort order, click on the desired column heading.
+    </p>
+
+				
+    <div class="container">
+        <div class="inner-main">
+            <div class="table-responsive tableShiptalk  clearfix">
+                <table id="myTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Role
+                            </th>
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Date Approved/Denied
+                            </th>
+                            <th>
+                                Last Logon
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model.UsersView)
+                            {
+
+                                <tr>
+                                    <td>
+                                        <a href="/approveuser?id=@item.ID">@item.Name</a>
+
+                                    </td>
+                                    <td>
+                                        <a href="/changerolePage?id=@item.ID">@item.Role</a>
+
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Status)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ApprovedDate)
+                                        @Html.DisplayFor(modelItem => item.DeniedDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LastLoginDate)
+
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+
+        </div>
+
+
+    </div>
+
+
+

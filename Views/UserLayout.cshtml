@@ -1,0 +1,133 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+    var homePage = CurrentPage.AncestorsOrSelf(1).First();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-translate-customization" content="ea43cdd0c0d78307-9a238da2151aae08-g42d3a96b14063799-19"></meta>
+
+    <title>@Umbraco.Field("title", altFieldAlias: "pageName")</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="wrap-header">
+                <div class="navbar-header">
+                    <h1 class="logo">
+                        <a href="/">
+                            <img alt="Brand" src="/images/logo.png">
+                        </a>
+                    </h1>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#show-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <!-- <div class="right-side"> -->
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="search-bar  col-md-3">
+                        <div class="wrap-search">
+
+                            <form class="search-form">
+
+                                <input id="search-term" type="text" class="form-control" placeholder="Search">
+                                <button class="searchButton" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                }
+                <div class="login-prompt col-md-3">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <p>Logged in: @User.Identity.Name</p>
+                        @Html.ActionLink("Logout", "Logout", "AuthSurface", null, new { @class = "btn light-blue-line md" })
+
+                    }
+                    else
+                    {
+                        <a href="/login" class="btn light-blue-line md">Login</a>
+                        <a href="/register" class="btn light-green-line md">Registration</a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Item -->
+        @{ Html.RenderPartial("usermenu"); }
+
+
+    </header>
+
+
+
+    <!-- Main -->
+    @RenderBody()
+
+
+
+    <!-- Footer -->
+    <footer>
+        @{ Html.RenderPartial("footer"); }
+    </footer>
+
+    <!-- jQuery -->
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="/js/scripts.js"></script>
+
+
+
+
+    <script type="text/javascript">
+
+
+
+        $(function () {
+            $(".search-form").submit(function (e) {
+                e.preventDefault();
+                location.href = "/search-results/?keywords=" + $("#search-term").val();
+            });
+        });
+    </script>
+
+    <!-- Translate script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+
+</html>

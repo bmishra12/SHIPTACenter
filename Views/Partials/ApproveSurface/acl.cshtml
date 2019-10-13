@@ -1,0 +1,89 @@
+﻿@using System.Web.Mvc.Html
+
+@using ClientDependency.Core.Mvc
+
+@using UmbracoShipTac.Controllers
+@using UmbracoShipTac.Models
+@model ProductTyreSelectorViewModel
+
+@*@inherits UmbracoViewPage<BlogOverview>*@
+
+@{
+
+    var success = TempData["FormSuccess"] != null;
+
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+
+    var status = "Waiting for Email Verification";
+}
+   
+
+@using (Html.BeginForm("Index", "TextPage", FormMethod.Get))
+{
+
+    @Html.DropDownList( "State",UmbracoShipTac.Code.UiEnum.States,"--Select One--" )
+    
+    <p>
+        <input type="submit" value="Submit" />
+    </p>
+}
+
+
+<h2>List of Customers changed</h2>
+<table border="1">
+    <tr>
+     
+
+    </tr>
+
+    @foreach (var item in Model.UsersView)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+
+
+
+            <td>
+               @{
+        var routeValues = new System.Web.Routing.RouteValueDictionary();
+                routeValues.Add("controller", "ShipTac");
+                routeValues.Add("EmailId", item.Email);
+
+                
+                @Html.ActionLink("Approve", "RenderApproveMember", routeValues, null);
+
+                @:&nbsp; &nbsp;
+
+                 @Html.ActionLink("Deny", "RenderDenyMember", "ShipTac", new { EmailId = item.Email }, new { onclick = "return confirm('Are you sure you wish to deny this user?');" });
+
+
+               @:&nbsp; &nbsp;
+
+                @Html.ActionLink("Delete", "RenderDeleteMember", "ShipTac", new { EmailId = item.Email }, new { onclick = "return confirm('Are you sure you wish to delete this user?');" });
+               @:&nbsp; &nbsp;
+                @Html.ActionLink("ChangeRole", "RenderChangeMember", routeValues, null);
+              @:&nbsp; &nbsp;
+ 
+}
+           </td>
+</tr>
+    }
+
+</table>
+ 
+
+
+
+

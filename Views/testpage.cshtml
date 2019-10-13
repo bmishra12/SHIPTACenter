@@ -1,0 +1,33 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "umbLayout.cshtml";
+
+     var success = TempData["success"] != null;
+
+     var resid = TempData["resid"];
+
+}
+
+@*@Html.Action("RenderAcl", "AclSurface")*@
+
+
+@*@Html.Partial("listuser", new ViewDataDictionary { { "MyData", "The value" } })*@
+@*@Html.Partial("AuthSurface/Register", new UmbracoShipTac.Models.RegisterViewModel())*@
+
+@*@Html.Partial("approvesurface/ccacl")*@
+
+@*@Html.Action("ProductTyreSelectorViewModel", "TextPage")*@
+
+
+<!-- you are calling the get and then it is redirected to a post page this renders the page -->
+@*@Html.Action("RenderAddResource", "ResourceSurface")*@
+
+
+@*@Html.Action("RenderAddResourceFile", "ResourceSurface", new { ResourceID =34})
+    @Html.Action("RenderApproveResource", "ResourceSurface", new { resourceId = 1606 })
+
+*@
+    
+
+@Html.Action("RenderSearchResource", "ResourceSurface")
+

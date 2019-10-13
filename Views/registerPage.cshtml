@@ -1,0 +1,49 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "umbLayout.cshtml";
+
+    var success = TempData["success"] != null;
+}
+<!-- Register page -->
+<div class="main">
+    <div class="container">
+        <div class="inner-main">
+            <div class="col-md-9 col-centered">
+                <div class="row">
+                    <h2>Account Sign-Up</h2>
+                    <div class=" clearfix"></div>
+                    <div class="block white clearfix">
+                        <section>
+                            <div class="col-sm-10 content col-centered">
+                                
+                                @if (success)
+                                {
+                                    @* This message will show if RedirectOnSucces is set to false (default) *@
+                                    <p>
+                                        Your request to be a registered user of the SHIP-only area of www.shiptacenter.org has been submitted. You will receive an email from info@shiptacenter.org today, verifying your submission. After the SHIP director in your state, commonwealth, or territory has reviewed your request, you will receive another email from info@shiptacenter.org letting you know if it was approved or denied. To return to our home page, Click <a href="/home">here</a>.
+                                        <br /><br />
+                                        Sincerely,
+                                        <br /><br />
+                                        The State Health Insurance Assistance Program (SHIP) National Technical Assistance Center
+                                        <br />
+                                        877-839-2675
+                                        <br />
+                                        <a href="mailto:info@shiptacenter.org">info@shiptacenter.org</a>
+
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>To request access to the SHIP-only area of this website, which is password protected, please complete the fields below. Your request will be reviewed for approval by your SHIP program administrator.</p>
+                                    @Html.Partial("AuthSurface/Register", new UmbracoShipTac.Models.RegisterViewModel())
+                                }
+
+                            </div>
+                        </section>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+</div>
+

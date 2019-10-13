@@ -1,0 +1,316 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+    var homePage = CurrentPage.AncestorsOrSelf(1).First();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-translate-customization" content="ea43cdd0c0d78307-9a238da2151aae08-g42d3a96b14063799-19"></meta>
+
+    <title>@Umbraco.Field("title", altFieldAlias: "pageName")</title>
+
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css?v=1.2">
+    <link rel="stylesheet" href="/css/bootstrap-multiselect.css">
+    <link rel="stylesheet" href="/css/daterangepicker.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/map-style.css?v=1.2" />
+	
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+</head>
+
+<body>
+
+		<span id="map-tip"></span>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="wrap-header">
+                <div class="navbar-header">
+                    <h1 class="logo">
+                        <a href="/">
+                            <img alt="Brand" src="/images/logo.png">
+                        </a>
+                    </h1>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#show-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <!-- <div class="right-side"> -->
+
+
+                <div class="search-bar  col-md-3">
+                    <div class="wrap-search">
+
+                        <form class="search-form">
+
+                            <input id="search-term" type="text" class="form-control" placeholder="Search">
+                            <button class="searchButton" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+
+
+                <div class="login-prompt col-md-3">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <p>Logged in: @User.Identity.Name</p>
+                        @Html.ActionLink("Logout", "Logout", "AuthSurface", null, new { @class = "btn light-blue-line md" })
+
+                    }
+                    else
+                    {
+                        <a href="/login" class="btn light-blue-line md">SHIP Login</a>
+
+                    }
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Item -->
+        @{ Html.RenderPartial("menu"); }
+
+    </header>
+
+
+
+    <!-- Main -->
+    @RenderBody()
+
+
+
+    <!-- Footer -->
+    <footer>
+        @{ Html.RenderPartial("footer"); }
+    </footer>
+
+		
+		
+	<!-- map-->
+	<script src="/js/jquery.min.js" type="text/javascript"></script>
+	<script src="/js/map-config.js" type="text/javascript"></script>
+	<script src="/js/pin-config.js" type="text/javascript"></script>
+    <script src="/js/map-interact.js??v=1.1.0" type="text/javascript"></script>
+		
+		
+		
+    <!-- jQuery -->
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="/js/scripts.js"></script>
+    <script src="/js/jquery.carouFredSel-6.2.1.js"></script>
+
+    <script src="/js/bootstrap-multiselect.js"></script>
+
+    <script src="/js/query.maskedinput.js"></script>
+    <script src="/js/jquery.MultiFile.pack.js"></script>
+    <script src="/js/spin.min.js"></script>
+    <script src="/js/jquery.tablesorter.min.js"></script>
+
+    <!-- Include Date Range Picker -->
+    <script src="/js/moment.min.js"></script>
+    <script  src="/js/daterangepicker.js"></script>
+
+    <!-- Include Date Range Picker -->
+
+    @if (CurrentPage.Id == homePage.Id)
+    {
+
+        <script type="text/javascript">
+            $(function () {
+                var carousel = $('#carousel .slideDesktop, #carousel .slidemobile')
+                carousel.carouFredSel({
+                    width: $(window).width(),
+                    height: $(window).height(),
+                    align: false,
+                    responsive: true,
+                    items: {
+                        visible: 1,
+                        width: 'variable',
+                        height: 'variable'
+                    },
+                    scroll: {
+                        fx: 'crossfade',
+                        duration: 3000,
+                    }
+                });
+
+
+
+
+
+                $(window).resize(function () {
+                    var newCss = {
+                        width: $(window).width(),
+                        height: $(window).height()
+                    };
+                    carousel.css('width', newCss.width * 4);
+                    carousel.css('height', newCss.height * 4);
+                    carousel.parent().css(newCss);
+                    $('#carousel, #carousel li').css(newCss);
+
+                }).resize();
+            });
+        </script>
+    }
+
+
+
+
+
+
+    <script>
+        $(function () {
+            var carousel = $('#carousel .slider_logon')
+            carousel.carouFredSel({
+                width: $(window).width(),
+                height: $(window).height(),
+                align: false,
+                items: {
+                    visible: 1,
+                    width: 'variable',
+                    height: 'auto'
+                },
+                scroll: {
+                    fx: 'crossfade',
+                    duration: 3000,
+                }
+            });
+
+            $(window).resize(function () {
+                var newCss = {
+                    width: $(window).width(),
+                    height: $(window).height()
+                };
+                carousel.css('width', newCss.width * 4);
+                carousel.css('height', newCss.height * 4);
+                carousel.parent().css(newCss);
+                $('#carousel li').css(newCss);
+            }).resize();
+        });
+    </script>
+
+
+    <script type="text/javascript">
+
+        jQuery(function ($) {
+
+            $("#Phone").mask("(999) 999-9999? x99999");
+
+            $('#Title').keyup(function() {
+                updateCount.call(this, 100,'div100char');
+            });
+            $('#Title').keydown(function () {
+                updateCount.call(this, 100, 'div100char');
+            });
+            $('#Description').keyup(function () {
+                updateCount.call(this, 500, 'div500char');
+            });
+            $('#Description').keydown(function () {
+                updateCount.call(this, 500, 'div500char');
+            });
+        
+
+            $("#btnResUpload,#btnResSave").click(function () {
+
+                $("#loading").fadeIn();
+                var opts = {
+                    lines: 11, // The number of lines to draw
+                    length: 0, // The length of each line
+                    width: 8, // The line thickness
+                    radius: 22, // The radius of the inner circle
+                    color: '#24588B', // #rgb or #rrggbb
+                    speed: 1, // Rounds per second
+                    trail: 60, // Afterglow percentage
+                    shadow: false, // Whether to render a shadow
+                    hwaccel: false // Whether to use hardware acceleration
+                };
+                var target = document.getElementById('loading');
+                var spinner = new Spinner(opts).spin(target);
+            });
+
+        });
+        
+        function updateCount(maxchar,divid) {
+            var cs = maxchar - $(this).val().length;
+            $('#' + divid).text("Characters left: " + cs);
+        }
+    </script>
+    <script type="text/javascript">
+
+        $(function () {
+            $(".search-form").submit(function (e) {
+                e.preventDefault();
+                location.href = "/search?term=" + $("#search-term").val();
+            });
+
+        });
+
+        $(function () {
+            $("#myTable").tablesorter();
+        });
+
+        $(function () {
+            $('.checklist').multiselect({
+                buttonContainer: '<div class="wrap-checklist" />',
+                includeSelectAllOption: true,
+                selectAllValue: 'check-all',
+                selectAllText: 'Check all'
+            });
+        });
+
+    </script>
+
+
+    <script type="text/javascript">
+    $(function () {
+        $('input[name="DateRange"]').daterangepicker({
+            timePicker: true,
+            timePickerIncrement: 30,
+            locale: {
+                format: 'MM/DD/YYYY h:mm A'
+            }
+        });
+    });
+    </script>
+    <!-- Translate script -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+
+</html>

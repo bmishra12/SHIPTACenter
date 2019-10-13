@@ -1,0 +1,84 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "umbLayout.cshtml";
+    var pageTitle = string.IsNullOrWhiteSpace(CurrentPage.Title)
+  ? CurrentPage.Name
+  : CurrentPage.Title;
+}
+
+<div class="main">
+    <div class="container">
+        <div class="inner-main">
+            <div class="col-sm-8 col-md-9 col-xs-12">
+                <div class="row-xs">
+                    <div class="block white clearfix">
+                        <section>
+                            <div class="col-sm-offset-1"><h2>@CurrentPage.ResouceTitle</h2></div>
+                            <div class="col-sm-10 col-centered">
+                                <div class="content">
+                                    <strong>Source: </strong> @CurrentPage.State
+                                    <br />
+                                    <strong>Contributed by:  </strong> @CurrentPage.Contributor
+                                    <br />
+                                    @{
+                                        DateTime dtCreated = Convert.ToDateTime(CurrentPage.CreateDate);
+                                    }
+
+                                    <strong>Date Added: </strong> @dtCreated.ToShortDateString()
+                                    <br />
+
+                                    <strong> Description: </strong> @Html.Raw(CurrentPage.Description) 
+                                    <br />
+                                    @{
+
+                                        string myids = CurrentPage.mediaids;
+                                        if (!myids.IsNullOrWhiteSpace())
+                                        {
+                                            @Html.Raw("<p>");
+                                        @Html.Raw("<strong>Files:</strong>");
+                                        @Html.Raw("<ul>")
+                                            foreach (string sid in myids.Split(','))
+                                            {
+                                                if (!sid.IsNullOrWhiteSpace())
+                                                {
+                                                    int myid = Int32.Parse(sid);
+                                                    var media = Umbraco.Media(myid);
+                                                    var imgUrl = media.umbracoFile;
+
+                                                    <li><a href="@imgUrl">@media.Name</a></li>
+                                                }
+
+                                            }
+                                            @Html.Raw("</ul>");
+                                        @Html.Raw("<p>");
+                                        }
+
+
+                                        if (CurrentPage.HasValue("links") && CurrentPage.links.ToString().Length > 2)
+                                        {
+                                            @Html.Raw("<p>");
+                                        @Html.Raw("<strong>Links:</strong>");
+                                        @Html.Raw("<ul>")
+                                            foreach (var item in CurrentPage.links)
+                                            {
+                                                var linkUrl = (bool)item.isInternal ? Umbraco.NiceUrl(item.Value<int>
+                                                    ("internal")) : item.link;
+                                                var linkTarget = (bool)item.newWindow ? "_blank" : null;
+
+                                                <li><a href="@linkUrl" target="@linkTarget">@item.caption</a></li>
+                                            }
+                                            @Html.Raw("</ul>");
+                                        @Html.Raw("</p>");
+                                        }
+                                    }
+
+
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

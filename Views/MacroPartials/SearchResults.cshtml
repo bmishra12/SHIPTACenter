@@ -1,0 +1,59 @@
+﻿@using Examine.LuceneEngine.SearchCriteria
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+     
+    @{
+        string searchTerm = Request.QueryString["keywords"];
+        if (String.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchTerm = "";
+        }
+     
+        var searcher = ExamineManager.Instance;
+        var searchCriteria = searcher.CreateSearchCriteria();
+     
+        var query = searchCriteria.GroupedOr(new[] { "nodeName", "name", "title", "bodyText", "seo" }, searchTerm).Compile();
+     
+        var searchResults = searcher.Search(query).Where(r => r["__IndexType"] == "content").ToList();
+           
+    }
+     
+
+    @if (searchResults.Any())
+    {
+       <div class="content col-centered">
+            @foreach (var result in searchResults)
+            {
+                var node = Umbraco.TypedContent(result.Id);
+               
+                var pathIds = result["__Path"].Split(',');
+     
+                var path = Umbraco.TypedContent(pathIds).Where(p => p != null).Select(p=> new {p.Name}).ToList();
+     
+            <div class="block">
+
+                     <a href="@node.Url"><strong>@node.Name</strong></a>
+
+     
+     
+                        @if (result.Fields.ContainsKey("bodytext"))
+                        {
+                            <p><small>@result["bodytext"].Truncate(250)...</small></p>
+                        }
+   
+    
+        	</div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>
+            There are no results matching your search criteria:
+     
+                @if (!String.IsNullOrWhiteSpace(searchTerm))
+                {
+                    <text>'@searchTerm'</text>
+                }
+        </p>
+    }
+

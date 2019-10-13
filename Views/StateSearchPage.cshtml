@@ -1,0 +1,59 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "umbLayout.cshtml";
+	  var pageTitle = string.IsNullOrWhiteSpace(CurrentPage.Title)
+        ? CurrentPage.Name
+        : CurrentPage.Title;
+}
+
+
+	
+	<div class="main">
+		<div class="container">
+			<div class="inner-main">
+				
+	       <div class="col-sm-8 col-md-9 col-xs-12 col-centered">
+               <div class="row-xs"> 
+						@Html.Action("Index", "StateFormSurface")
+				</div>
+
+				
+				   <div class="block clearfix">
+					   <section>
+					   <div class="content">
+						   <h3>@pageTitle</h3>
+						   <p><strong>To receive Senior Medicare Patrol program services in your state:</strong>
+					   </p>  
+					   <dl class="dl-horizontal">
+						   <dt>Call:</dt>
+					   <dd>@CurrentPage.callnumber</dd>
+					   <dt>Visit:</dt>
+				   
+				   @{      
+					   if (CurrentPage.HasValue("linkpage") && CurrentPage.linkpage.ToString().Length > 2)
+					   {
+						   
+						   foreach (var item in CurrentPage.linkpage)
+						   {
+							   var linkUrl = (bool)item.isInternal ? Umbraco.NiceUrl(item.Value<int>("internal")) : item.link;
+							   var linkTarget = (bool)item.newWindow ? "_blank" : null;
+							   <dd><a href="@linkUrl" target="@linkTarget">@item.caption</a></dd>
+						   }
+						   
+					   }
+				   } 
+
+
+					</div>
+	
+					</section>										
+					</div> 
+					 </div>
+				</div> 
+										
+			</div>
+		 </div>
+	</div>  
+		 
+	  
+		  

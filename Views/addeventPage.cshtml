@@ -1,0 +1,47 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "umbLayout.cshtml";
+
+    var success = TempData["success"] != null;
+    var eID = TempData["eID"];
+
+}
+
+
+<div class="container">
+    <div class="inner-main tab-content">
+
+        <!-- My user content -->
+        <div role="tabpanel" class="tab-pane active" id="myUsers">
+
+            <h2>Event</h2>
+            <div class="col-sm-11 col-md-10 col-centered">
+                <div class="block white clearfix row">
+                    <section>
+                        <div class="col-sm-10 content col-centered">
+                            <h2>Event Profile</h2>
+                            @if (success)
+                            {
+
+
+                                var myNode = Umbraco.Content(eID);
+                                var linkUrl = myNode.Url;
+
+                                <p>
+                                    Your event has been published. To review your event profile,<a href="@linkUrl" class="btn btn-link"> click here.</a>
+                                </p>
+
+                            }
+                            else
+                            {
+                                   <!-- you are calling the get and then it is redirected to a post page -->
+                                @Html.Action("RenderAddEvent", "EventSurface")
+
+                            }
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

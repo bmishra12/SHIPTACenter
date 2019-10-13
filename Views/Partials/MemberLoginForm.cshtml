@@ -1,0 +1,18 @@
+@model MySurfaceControllerUmbraco.Models.MemberLoginFormViewModel
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>Logged in: @User.Identity.Name</p>
+    <p>@Html.ActionLink("Log out", "MemberLogout", "MemberLoginFormSurface")</p>
+}
+else
+{
+
+    using (Html.BeginUmbracoForm<MySurfaceControllerUmbraco.Controllers.MemberLoginFormSurfaceController>("MemberLogin"))
+    {
+        @Html.EditorFor(x => Model)
+        <input type="submit" />
+    }
+
+    <p>@TempData["Status"]</p>
+}

@@ -1,0 +1,72 @@
+﻿@using System.Web.Mvc.Html
+
+@using ClientDependency.Core.Mvc
+
+@using UmbracoShipTac.Controllers
+@using UmbracoShipTac.Models
+
+
+@model UmbracoShipTac.Models.UserFeatureTopViewModel
+
+@{
+    Html.RequiresJs("/umbraco_client/ui/jquery.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.min.js");
+    Html.RequiresJs("/umbraco_client/Application/JQuery/jquery.validate.unobtrusive.min.js");
+    Html.EnableClientValidation(true);
+    Html.EnableUnobtrusiveJavaScript(true);
+
+}
+
+
+<div class="clearfix wrap-block">
+    <div style="height: 60px; width: 400px;float: left"> <h2>Features</h2></div>
+    @if (@Model.PendingCount > 0)
+    {
+        <div class="numberCircle">
+            @Model.PendingCount
+        <span class="tooltiptext">You have this number of items waiting for your attention on the dashboard <br /> Go to the dashboard menu to see these items.</span>
+    </div>
+    }
+</div>
+
+
+<div class="wrap-block">
+
+    <div id='fe'>
+        <div id='features'>
+
+
+            @if (Model != null)
+            {
+                if (Model.TopListView != null && Model.TopListView.Count() > 0)
+                {
+                    foreach (var item in Model.TopListView.OrderBy(i => i.Order))
+                    {
+                        <a href="@item.Url" target="_blank">
+
+                            <figure>
+
+                               <img src="@item.ImageUrl" alt="" />
+                                <figcaption>
+                                    <strong>
+                                       @Html.Raw(string.Format("{0}.", item.NodeName))
+                                    </strong>
+                                    
+                                     @Html.Raw(string.Format("{0} ...", item.Text))
+
+                                </figcaption>
+
+                            </figure>
+                        </a>
+       
+                    }
+                }
+            }
+
+        </div>
+    </div>
+
+
+
+
+    </div>

@@ -1,0 +1,44 @@
+﻿@inherits UmbracoTemplatePage
+@using Newtonsoft.Json.Linq
+@{
+    //<img src="@dynamicMediaItem.umbracoFile" alt="@dynamicMediaItem.Name" width="80" height="70"/>
+
+    var featureHome = Umbraco.Content(1131);
+
+}
+<div class="wrap-block sm-font-size">
+    <h3 class="sm">@featureHome.headertext</h3>
+    <p>@featureHome.headertext2</p>
+    @foreach (var afeature in featureHome.Children)
+    {
+        <h5>@afeature.headertext</h5>
+        <ul class="list-unstyled">
+            @{
+        if (afeature.HasValue("links") && afeature.links.ToString().Length > 2)
+        {
+
+            foreach (var item in afeature.links)
+            {
+                var linkUrl = (bool)item.isInternal ? Umbraco.NiceUrl(item.Value<int>("internal")) : item.link;
+                var linkTarget = (bool)item.newWindow ? "_blank" : null;
+                <li><a href="@linkUrl" target="@linkTarget">@item.caption</a></li>
+            }
+        }
+
+            }
+        </ul>
+    }
+    <div class="col-centered text-center">
+        @{
+            if (featureHome.HasValue("resourceimage"))
+            {
+                var dynamicMediaItem = Umbraco.Media(featureHome.resourceimage);
+
+                <a href="#">
+                    <img src="@dynamicMediaItem.umbracoFile" alt="@dynamicMediaItem.Name" />
+                </a>
+            }
+        }
+    </div>
+
+</div>

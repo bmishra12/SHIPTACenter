@@ -1,0 +1,56 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    var homePage = CurrentPage.AncestorsOrSelf(1).First();
+    var contactus = Umbraco.Content(1330);
+}
+
+<nav class="navbar" role="navigation">
+    <div class="container">
+        <div class="row">
+            <div class="collapse navbar-collapse" id="show-nav">
+                <ul class="nav navbar-nav">
+
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        foreach (var menu in homePage.textpage.Where("hideinmenu == false"))
+                        {
+                            if (umbraco.library.HasAccess(menu.id, menu.path))
+                            {
+                                if (menu.textpage.Where("hideinmenu == false").Count() > 0)
+                                {
+                                    <li class="sub-menu @(CurrentPage.Id == menu.Id ? "active" : null)">
+                                        <a href="@menu.Url" data-toggle="dropdown" aria-expanded="false" class="disabled"><span>@menu.menuline1</span>@menu.menuline2</a>
+
+
+                                        <ul class="dropdown-menu level-1" role="menu">
+                                            @foreach (var menu2 in menu.textpage.Where("hideinmenu == false"))
+                                            {
+                                                if (umbraco.library.HasAccess(menu2.id, menu2.path))
+                                                {
+                                                    <li>
+                                                        <a href="@menu2.Url">@menu2.title</a>
+                                                    </li>
+                                                }
+                                            }
+                                        </ul>
+                                    </li>
+
+                                }
+                                else
+                                {
+                                    <li class="@(CurrentPage.Id == menu.Id ? "active" : null)">
+                                        <a href="@menu.Url"><span>@menu.menuline1</span>@menu.menuline2</a>
+                                    </li>
+                                }
+
+                            }
+                        }
+                    }
+                </ul>
+
+
+            </div>
+        </div>
+    </div>
+</nav>

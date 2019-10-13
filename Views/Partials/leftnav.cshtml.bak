@@ -1,0 +1,52 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+	//go to the 2nd level only
+    var homePage = CurrentPage.AncestorsOrSelf(2).First();
+}
+                       
+<div class="menu left">
+ <ul class="list-unstyled" id="menu-left" role="tablist" aria-multiselectable="true">
+                                  				
+		@foreach (var menu in homePage.textpage.Where("hideinmenu == false"))
+		{	
+			
+			<li class="@(CurrentPage.Id == menu.Id ? "active" : null)">
+				
+				@if(menu.textpage.Where("hideinmenu == false").Count() > 0)
+				{
+					<a href="@menu.Url" data-toggle="collapse"  data-parent="menu-left" data-target="#sub-menu_@menu.Id" aria-expanded="true" aria-controls="sub-menu" class="parentItem" id="test_@menu.Id" >@menu.title</a>
+			        <span class="caret" data-toggle="collapse" data-parent="menu-left" data-parent="menu-left" data-target="#sub-menu_@menu.Id" aria-expanded="true" aria-controls="sub-menu" ></span>
+			
+				      <ul id="sub-menu_@menu.Id" class="list-unstyled panel-collapse collapse in">
+                     	@foreach (var menu1 in menu.textpage.Where("hideinmenu == false"))
+						{
+							<li class="@(CurrentPage.Id == menu1.Id ? "active" : null)">						
+								<a href="@menu1.Url">@menu1.title</a>		
+              					
+								@if(menu1.textpage.Where("hideinmenu == false").Count() > 0)
+								{
+									<ul>											
+										@foreach (var menu2 in menu1.textpage.Where("hideinmenu == false"))
+										{
+											<li>
+												<a href="@menu2.Url"><span>@menu2.title</a>
+											</li>
+										}
+									</ul> 
+								}
+							</li>
+						}
+					</ul> 
+				}
+				else
+				{
+					
+					<a href="@menu.Url">@menu.title</a>
+				}
+			</li>
+		}
+    </ul>
+
+</div>
+
+
