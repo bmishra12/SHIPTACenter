@@ -1,0 +1,466 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9BE31B60-F02C-404C-B70C-BBFF30E99470}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UmbracoShipTac</RootNamespace>
+    <AssemblyName>umbracoShip</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+    </Reference>
+    <Reference Include="businesslogic">
+    </Reference>
+    <Reference Include="ClientDependency.Core">
+    </Reference>
+    <Reference Include="ClientDependency.Core.Mvc">
+    </Reference>
+    <Reference Include="cms">
+    </Reference>
+    <Reference Include="controls">
+    </Reference>
+    <Reference Include="CookComputing.XmlRpcV2">
+    </Reference>
+    <Reference Include="Examine">
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+    </Reference>
+    <Reference Include="ImageProcessor">
+    </Reference>
+    <Reference Include="ImageProcessor.Web">
+    </Reference>
+    <Reference Include="interfaces">
+    </Reference>
+    <Reference Include="Interop.ADODB, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>bin\Interop.ADODB.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.CDO, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>bin\Interop.CDO.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+    </Reference>
+    <Reference Include="Lucene.Net">
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data">
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Helpers">
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="MiniProfiler">
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    </Reference>
+    <Reference Include="TidyNet">
+    </Reference>
+    <Reference Include="umbraco">
+    </Reference>
+    <Reference Include="Umbraco.Core">
+    </Reference>
+    <Reference Include="umbraco.DataLayer">
+    </Reference>
+    <Reference Include="umbraco.editorControls">
+    </Reference>
+    <Reference Include="umbraco.MacroEngines">
+    </Reference>
+    <Reference Include="umbraco.providers">
+    </Reference>
+    <Reference Include="Umbraco.Web.UI">
+    </Reference>
+    <Reference Include="umbraco.XmlSerializers">
+    </Reference>
+    <Reference Include="UmbracoExamine">
+    </Reference>
+    <Reference Include="UrlRewritingNet.UrlRewriter">
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
+    <Content Include="bin\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
+    <Content Include="bin\amd64\sqlceca40.dll" />
+    <Content Include="bin\amd64\sqlcecompact40.dll" />
+    <Content Include="bin\amd64\sqlceer40EN.dll" />
+    <Content Include="bin\amd64\sqlceme40.dll" />
+    <Content Include="bin\amd64\sqlceqp40.dll" />
+    <Content Include="bin\amd64\sqlcese40.dll" />
+    <Content Include="bin\AutoMapper.dll" />
+    <Content Include="bin\AutoMapper.Net4.dll" />
+    <Content Include="bin\businesslogic.dll" />
+    <Content Include="bin\CaptchaMvc.dll" />
+    <Content Include="bin\CaptchaMvc.pdb" />
+    <Content Include="bin\ClientDependency.Core.dll" />
+    <Content Include="bin\ClientDependency.Core.Mvc.dll" />
+    <Content Include="bin\cms.dll" />
+    <Content Include="bin\controls.dll" />
+    <Content Include="bin\CookComputing.XmlRpcV2.dll" />
+    <Content Include="bin\Examine.dll" />
+    <Content Include="bin\HtmlAgilityPack.dll" />
+    <Content Include="bin\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="bin\ImageProcessor.dll" />
+    <Content Include="bin\ImageProcessor.Web.dll" />
+    <Content Include="bin\interfaces.dll" />
+    <Content Include="bin\interfaces.xml" />
+    <Content Include="bin\Interop.ADODB.dll" />
+    <Content Include="bin\Interop.CDO.dll" />
+    <Content Include="bin\log4net.dll" />
+    <Content Include="bin\Lucene.Net.dll" />
+    <Content Include="bin\Microsoft.ApplicationBlocks.Data.dll" />
+    <Content Include="bin\Microsoft.Threading.Tasks.dll" />
+    <Content Include="bin\Microsoft.Threading.Tasks.Extensions.dll" />
+    <Content Include="bin\Microsoft.Threading.Tasks.Extensions.xml" />
+    <Content Include="bin\Microsoft.Web.Helpers.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Microsoft.Web.Mvc.FixedDisplayModes.dll" />
+    <Content Include="bin\MiniProfiler.dll" />
+    <Content Include="bin\MySql.Data.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\SQLCE4Umbraco.dll" />
+    <Content Include="bin\System.Data.SqlServerCe.dll" />
+    <Content Include="bin\System.Data.SqlServerCe.Entity.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\TidyNet.dll" />
+    <Content Include="bin\Umbraco.Core.dll" />
+    <Content Include="bin\umbraco.DataLayer.dll" />
+    <Content Include="bin\umbraco.dll" />
+    <Content Include="bin\umbraco.editorControls.dll" />
+    <Content Include="bin\umbraco.MacroEngines.dll" />
+    <Content Include="bin\umbraco.providers.dll" />
+    <Content Include="bin\Umbraco.Web.UI.dll" />
+    <Content Include="bin\umbraco.XmlSerializers.dll" />
+    <Content Include="bin\UmbracoExamine.dll" />
+    <Content Include="bin\umbracoShip.dll" />
+    <Content Include="bin\umbracoShip.pdb" />
+    <Content Include="bin\UrlRewritingNet.UrlRewriter.dll" />
+    <Content Include="bin\x86\Microsoft.VC90.CRT\msvcr90.dll" />
+    <Content Include="bin\x86\Microsoft.VC90.CRT\README_ENU.txt" />
+    <Content Include="bin\x86\sqlceca40.dll" />
+    <Content Include="bin\x86\sqlcecompact40.dll" />
+    <Content Include="bin\x86\sqlceer40EN.dll" />
+    <Content Include="bin\x86\sqlceme40.dll" />
+    <Content Include="bin\x86\sqlceqp40.dll" />
+    <Content Include="bin\x86\sqlcese40.dll" />
+    <Content Include="Css\map-style.css" />
+    <Content Include="Global.asax" />
+    <Content Include="js\bootstrap-multiselect.js" />
+    <Content Include="js\daterangepicker.js" />
+    <Content Include="js\jquery.min.js" />
+    <Content Include="js\jquery.MultiFile.pack.js" />
+    <Content Include="js\jquery.tablesorter.min.js" />
+    <Content Include="js\map-config.js" />
+    <Content Include="js\map-interact.js" />
+    <Content Include="js\moment.min.js" />
+    <Content Include="js\ppin-config.js" />
+    <Content Include="js\query.maskedinput.js" />
+    <Content Include="Css\jquery.bxslider.css" />
+    <Content Include="Css\style.css" />
+    <Content Include="images\bg_logon.jpg" />
+    <Content Include="images\bx_loader.gif" />
+    <Content Include="images\controls.png" />
+    <Content Include="images\healthcare_logo.png" />
+    <Content Include="images\logo.png" />
+    <Content Include="images\slider\Multi-Ethnic-Group-Smiling.jpg" />
+    <Content Include="images\slider\open-shutterstock_140407579-ortho-opening.jpg" />
+    <Content Include="images\slider\Portrait-of-multi-ethnic-senior-women.jpg" />
+    <Content Include="images\slider\shutterstock_111908942-multi-ethnic-group-cropped.jpg" />
+    <Content Include="images\slider\slide4.jpg" />
+    <Content Include="images\slider\slider_1.jpg" />
+    <Content Include="images\slider\slider_1_.jpg" />
+    <Content Include="images\slider\slider_1_m.jpg" />
+    <Content Include="images\slider\slider_1___ %282%29.jpg" />
+    <Content Include="images\slider\slider_1___.jpg" />
+    <Content Include="images\slider\slider_2.jpg" />
+    <Content Include="images\slider\slider_2_.jpg" />
+    <Content Include="images\slider\slider_2_m.jpg" />
+    <Content Include="images\slider\slider_3.jpg" />
+    <Content Include="images\slider\slider_3_.jpg" />
+    <Content Include="images\slider\slider_3_m.jpg" />
+    <Content Include="images\slider\slider_3___.jpg" />
+    <Content Include="images\slider\slider_4.jpg" />
+    <Content Include="images\slider\slider_4_m.jpg" />
+    <Content Include="images\slider\slider_5.jpg" />
+    <Content Include="images\slider\slider_5_m.jpg" />
+    <Content Include="images\slider\slider_6.jpg" />
+    <Content Include="images\slider\slider_6_m.jpg" />
+    <Content Include="images\slider\slider_7.jpg" />
+    <Content Include="images\slider\slider_7_m.jpg" />
+    <Content Include="images\slider\stock-info.txt" />
+    <Content Include="images\slider\successful-retirement1-1024x656.jpg" />
+    <Content Include="js\jquery.bxslider.min.js" />
+    <Content Include="js\jquery.carouFredSel-6.0.4-packed.js" />
+    <Content Include="js\jquery.carouFredSel-6.2.1.js" />
+    <Content Include="js\o-RETIRED-COUPLE-facebook %281%29.jpg" />
+    <Content Include="js\scripts.js" />
+    <Content Include="js\spin.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Code\ConfigUtil.cs" />
+    <Compile Include="Code\EmailHelper.cs" />
+    <Compile Include="Code\Encryptor.cs" />
+    <Compile Include="Code\Extensions.cs" />
+    <Compile Include="Code\Helpers.cs" />
+    <Compile Include="Code\MailUtil.cs" />
+    <Compile Include="Code\PasswordValidator.cs" />
+    <Compile Include="Code\UiEnum.cs" />
+    <Compile Include="Code\UmbracoStartup.cs" />
+    <Compile Include="Code\Utils.cs" />
+    <Compile Include="Controllers\AclSurfaceController.cs" />
+    <Compile Include="Controllers\MediaController.cs" />
+    <Compile Include="Controllers\EventSurfaceController.cs" />
+    <Compile Include="Controllers\FeatureSurfaceController.cs" />
+    <Compile Include="Controllers\ResourceSurfaceController.cs" />
+    <Compile Include="Controllers\BlogController.cs" />
+    <Compile Include="Controllers\AuthSurfaceController.cs" />
+    <Compile Include="Controllers\HomeStateFormSurfaceController.cs" />
+    <Compile Include="Controllers\MemberLoginFormSurfaceController.cs" />
+    <Compile Include="Controllers\ShipTacController.cs" />
+    <Compile Include="Controllers\MyUmbracoHandler.cs" />
+    <Compile Include="Controllers\StateFormSurfaceController.cs" />
+    <Compile Include="Controllers\ContactFormSurfaceController.cs" />
+    <Compile Include="Controllers\UtilApiController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EventModel.cs" />
+    <Compile Include="Models\ResourceModel.cs" />
+    <Compile Include="Models\AuthModel.cs" />
+    <Compile Include="Models\BlogOverview.cs" />
+    <Compile Include="Models\AclModel.cs" />
+    <Compile Include="Models\MemberLoginFormViewModel.cs" />
+    <Compile Include="Models\ProfileModel.cs" />
+    <Compile Include="Models\StateFormViewModel.cs" />
+    <Compile Include="Models\ContactFormViewModel.cs" />
+    <Compile Include="Models\ViewProfileViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Partials\ProfileSurface\ContactForm.cshtml" />
+    <Content Include="Views\Partials\StateForm.cshtml" />
+    <Content Include="Views\Partials\HomeSearchState.cshtml" />
+    <Content Include="bin\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
+    <Content Include="bin\umbracoShip.dll.config" />
+    <Content Include="bin\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
+    <Content Include="Views\Partials\registero.cshtml" />
+    <Content Include="Views\Partials\MemberLoginForm.cshtml" />
+    <Content Include="Views\testpage.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Partials\listUser.cshtml" />
+    <Content Include="Views\loginpage.cshtml" />
+    <Content Include="Views\Partials\loginstatus.cshtml" />
+    <Content Include="Views\Partials\AuthSurface\ForgottenPassword.cshtml" />
+    <Content Include="Views\Partials\AuthSurface\Login.cshtml" />
+    <Content Include="Views\Partials\AuthSurface\Register.cshtml" />
+    <Content Include="Views\Partials\AuthSurface\ResetPassword.cshtml" />
+    <Content Include="Views\Partials\ProfileSurface\EditProfile.cshtml" />
+    <Content Include="Views\Partials\ProfileSurface\ViewProfile.cshtml" />
+    <Content Include="Views\approvepage.cshtml" />
+    <Content Include="Views\Partials\footer.cshtml" />
+    <Content Include="Views\Partials\homefeature.cshtml" />
+    <Content Include="Views\Partials\homerightlink.cshtml" />
+    <Content Include="Views\Partials\homerightnav.cshtml" />
+    <Content Include="Views\Partials\homeSlider.cshtml" />
+    <Content Include="Views\Partials\HomeStateForm.cshtml" />
+    <Content Include="Views\Partials\leftnav.cshtml" />
+    <Content Include="Views\Partials\menu.cshtml" />
+    <Content Include="Views\HomePage.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\SearchResultPage.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\StatePage.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\StateSearchPage.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\umbLayout.cshtml" />
+    <Content Include="Views\TextPage.cshtml" />
+    <Content Include="Views\registerPage.cshtml" />
+    <Content Include="Views\Partials\blogpaging.cshtml" />
+    <Content Include="Views\forgotPasswordPage.cshtml" />
+    <Content Include="Views\resetPasswordPage.cshtml" />
+    <Content Include="Views\Partials\ApproveSurface\userpendinglist.cshtml" />
+    <Content Include="Views\Partials\ApproveSurface\acl.cshtml" />
+    <Content Include="Views\Partials\AuthSurface\UserApproval.cshtml" />
+    <Content Include="Views\AdminLayout.cshtml" />
+    <Content Include="Views\Partials\AuthSurface\UserAdd.cshtml" />
+    <Content Include="Views\approveuserPage.cshtml" />
+    <Content Include="Views\adduserPage.cshtml" />
+    <Content Include="Views\Partials\ApproveSurface\userapprovedlist.cshtml" />
+    <Content Include="Views\approvedPage.cshtml" />
+    <Content Include="Views\featurePage.cshtml" />
+    <Content Include="Views\UserLayout.cshtml" />
+    <Content Include="Views\Partials\usermenu.cshtml" />
+    <Content Include="Views\Partials\feature.cshtml" />
+    <Content Include="Views\Partials\featurerightnav.cshtml" />
+    <Content Include="images\User.Role.chart.May.2015.pdf" />
+    <Content Include="Views\searchPage.cshtml" />
+    <Content Include="Views\Partials\ApproveSurface\searchlist.cshtml" />
+    <Content Include="Views\Partials\ResourceSurface\ResourceApprove.cshtml" />
+    <Content Include="Views\Partials\ResourceSurface\ResourceCreate.cshtml" />
+    <Content Include="Views\addresourcePage.cshtml" />
+    <Content Include="Views\resourcePage.cshtml" />
+    <Content Include="Views\approveresourcePage.cshtml" />
+    <Content Include="Views\Partials\ResourceSurface\resourcerpendinglist.cshtml" />
+    <Content Include="Config\ExamineIndex.config" />
+    <Content Include="Config\ExamineSettings.config" />
+    <Content Include="Views\Partials\ResourceSurface\resourceSearch.cshtml" />
+    <Content Include="Views\resouceLandingPage.cshtml" />
+    <Content Include="Views\Partials\ResourceSurface\resourceFeatured.cshtml" />
+    <Content Include="Views\Partials\ResourceSurface\resourceRecent.cshtml" />
+    <Content Include="Views\Partials\AuthSurface\notauth.cshtml" />
+    <Content Include="Views\Partials\AuthSurface\UserChangeRole.cshtml" />
+    <Content Include="Views\changerolePage.cshtml" />
+    <Content Include="Views\Partials\AuthSurface\changepass.cshtml" />
+    <Content Include="Views\ForceResetPasswordPage.cshtml" />
+    <Content Include="Views\addeventPage.cshtml" />
+    <Content Include="Views\Partials\EventSurface\EventCreate.cshtml" />
+    <Content Include="Views\eventPage.cshtml" />
+    <Content Include="Views\eventCalanderPage.cshtml" />
+    <Content Include="Views\Partials\EventSurface\EventCalendar.cshtml" />
+    <Content Include="Views\Partials\AuthSurface\loginagain.cshtml" />
+    <Content Include="Views\mapPage.cshtml" />
+    <Content Include="Views\aFeaturePage.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>57845</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:57845/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
